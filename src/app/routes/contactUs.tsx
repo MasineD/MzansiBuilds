@@ -37,7 +37,7 @@ export default function ContactUs(){
                             <input type="text" className="border border-black/50 ml-5 w-100 p-2 rounded-md" placeholder="youremailaddress@example.com"/>
                         </div>
                         <input type="text" className="border border-black/50 p-2 rounded-md" placeholder="Write your message here"/>
-                        <button type='submit' className="w-20 h-8 bg-green-500 rounded-md cursor-pointer hover:scale-105">SEND</button>
+                        <button type='submit' className="w-20 h-8 bg-green-500 rounded-md cursor-pointer hover:scale-105 text-white hover:bg-[#00ff00] hover:shadow-[4px_4px_10px_0px_#00ff00] transition-shadow duration-300">Send</button>
                     </div>
                     <div className="cardContainer items-center justify-center grid grid-rows-3 gap-[2dvh]">
                         {/* TODO: Add icons from lucide */}

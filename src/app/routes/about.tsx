@@ -1,5 +1,7 @@
 // =========The about section, containing details about MiHealth website=========
 import "../app.css";
+// The image used in this section
+import aboutImage from "../images/aboutImage.jpg";
 
 export default function About() {
     return(
@@ -23,7 +25,7 @@ export default function About() {
                         </p>
                     </div>
                     <div className="imageSection">      {/*Container for the image*/}
-                            <img src='#' alt='Developers collaborating on MzansiBuilds' className="rounded-[15px]"/>
+                            <img src={aboutImage} alt='Developers collaborating on MzansiBuilds' className="rounded-[15px]"/>
                         </div>
                 </div>
             </div>

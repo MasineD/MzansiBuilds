@@ -45,7 +45,7 @@ export default function Header() {
             <button
               key={section.id}
               onClick={() => scrollToSection(section.id)}
-              className="text-sm font-medium w-30 rounded-b-lg  bg-gradient-to-b from-transparent via-black/90 to-black hover:shadow-[8px_8px_20px_0px_#2563eb] transition-shadow duration-300 hover:bg-black/90 hover:cursor-pointer"
+              className="text-sm font-medium w-30 rounded-b-lg  bg-gradient-to-b from-transparent via-black/90 to-black hover:shadow-[4px_4px_10px_0px_#00ff00] transition-shadow duration-300 hover:bg-black/90 hover:scale-105 cursor-pointer"
             >
               {section.name}
             </button>
