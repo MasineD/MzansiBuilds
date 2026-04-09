@@ -7,9 +7,29 @@
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  @apply bg-white;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
+}
+/* ========Styling the sections of the landing page=========== */
+.headerSection{
+  @apply absolute inset-0 flex fixed top-0 left-0 justify-between text-white z-50 pt-5 h-[10vh] 
+      bg-gradient-to-b from-black via-black/90 to-transparent
+}
+.landingPage_Section{
+  @apply bg-white text-black
+}
+.sectionIntro{
+  @apply text-center mb-16
+}
+.sectionHeading{
+  @apply text-3xl sm:text-4xl lg:text-5xl font-[15px] sm:font-[10px] lg:font-[20px] font-bold mt-2 mb-4 
+}
+.miniDescription{
+  @apply text-lg text-black/50 max-w-5xl mx-auto
+}
+.footerSection{
+  @apply bg-gradient-to-b from-transparent via-black/90 to-black
 }
