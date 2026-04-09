@@ -43,7 +43,7 @@ export default function Reviews(){
                 <div className="cardContainer grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 px-25">
                     {reviews.map((review,index) => (
                         <div key={index} className="reviewCard border border-white/10 w-70 rounded-lg shadow-md p-6 text-center shadow-[8px_8px_20px_0px_#2563eb] 
-                            hover:shadow-[8px_8px_20px_0px_#2563eb] transition-shadow duration-300">
+                            hover:shadow-[8px_8px_20px_0px_#00ff00] transition-shadow duration-300">
                             <div className="reviewRating text-yellow-400 text-[30px]">
                                  {/*TODO: Use a nice and neet icon for star */}
                                 {Array.from({length : review.rating}).map((_,j)=>(
