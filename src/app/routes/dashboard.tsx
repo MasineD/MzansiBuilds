@@ -5,7 +5,7 @@ import "../app.css";
 import Profile from '../images/profile.jpg';
 import Overview from '../features/overview';
 import Projects from '../features/projects';
-// import CelebrationWall from '../features/celebrationWall';
+import CelebrationWall from '../features/celebrationWall';
 
 // TODO: Ensure that the styling adapts to the changes in width
 
@@ -166,9 +166,9 @@ export default function Dashboard() {
                 {activeNav==='Projects'  &&(
                     < Projects />
                 )}
-                {/* {activeNav==='CelebrationWall'  &&(
+                {activeNav==='CelebrationWall'  &&(
                     < CelebrationWall />
-                )} */}
+                )}
             </main>
         </div>
     )
