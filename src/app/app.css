@@ -33,3 +33,37 @@ body {
 .footerSection{
   @apply bg-gradient-to-b from-transparent via-black/90 to-black
 }
+/* ============ Styling the user Registration page============== */
+.accountExistence{
+  @apply flex mx-[15%]
+}
+/* ========Styling the dashboard========= */
+.userDetails_Label{
+  @apply font-bold
+}
+/* ========== Styling the feature components */
+.featureHeader{
+  @apply bg-blue-500 h-[18dvh] flex flex-col items-center justify-center border border-b-1
+}
+.featureTitle{
+  @apply font-bold text-[30px]
+}
+.featureDescription{
+  @apply text-[20px]
+}
+.overviewContent{
+  @apply flex gap-30 px-[5dvw] py-[10dvh]
+}
+.projectsContent{
+  @apply flex justify-center py-[10dvh]
+}
+.celebrationWallContent{
+  @apply mx-[10dvw] py-[10dvh]
+}
+/* =========Styling the Projects feature========= */
+.newDetail{
+  @apply flex items-end justify-between
+}
+.newProjectDetail_Input{
+  @apply w-[80%] border border-white/50 rounded-md mx-4 my-2 p-2
+}

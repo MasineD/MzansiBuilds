@@ -24,7 +24,7 @@ export default function LandingPage() {
             <div className="relative z-10 text-center text-black px-4">
             <h2 className="text-[70px] text-center font-heading font-bold mb-4">Build in Public,</h2>
             <p className="mb-8 max-w-2xl mx-auto text-center text-[40px]">Collaborate with Others</p>
-            <button onClick={() => navigate('/login')} className="bg-green-500 text-white px-10 py-4 rounded-md text-lg font-medium hover:bg-[#00ff00] hover:shadow-[4px_4px_10px_0px_#00ff00] transition-shadow duration-300 hover:scale-105 hover:cursor-pointer">
+            <button onClick={() => navigate('/userRegistration')} className="bg-green-500 text-white px-10 py-4 rounded-md text-lg font-medium hover:bg-[#00ff00] hover:shadow-[4px_4px_10px_0px_#00ff00] transition-shadow duration-300 hover:scale-105 hover:cursor-pointer">
                 Get Started
             </button>
             </div>
