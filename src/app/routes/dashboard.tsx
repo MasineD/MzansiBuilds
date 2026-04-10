@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import "../app.css";
 import Profile from '../images/profile.jpg';
 import Overview from '../features/overview';
-// import Projects from '../features/projects';
+import Projects from '../features/projects';
 // import CelebrationWall from '../features/celebrationWall';
 
 // TODO: Ensure that the styling adapts to the changes in width
@@ -163,10 +163,10 @@ export default function Dashboard() {
                 {activeNav==='Overview' &&(
                     < Overview />
                 )}
-                {/* {activeNav==='Projects'  &&(
+                {activeNav==='Projects'  &&(
                     < Projects />
                 )}
-                {activeNav==='CelebrationWall'  &&(
+                {/* {activeNav==='CelebrationWall'  &&(
                     < CelebrationWall />
                 )} */}
             </main>
