@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import "../app.css";
 import Profile from '../images/profile.jpg';
-// import Overview from '../features/overview';
+import Overview from '../features/overview';
 // import Projects from '../features/projects';
 // import CelebrationWall from '../features/celebrationWall';
 
@@ -160,10 +160,10 @@ export default function Dashboard() {
                     </div>
                   </div>
                 )}
-                {/* {activeNav==='Overview' &&(
+                {activeNav==='Overview' &&(
                     < Overview />
                 )}
-                {activeNav==='Projects'  &&(
+                {/* {activeNav==='Projects'  &&(
                     < Projects />
                 )}
                 {activeNav==='CelebrationWall'  &&(
