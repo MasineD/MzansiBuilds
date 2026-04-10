@@ -12,7 +12,7 @@ const footerDetails = [
     },
     {
         label:'Reviews',
-        id:'testimonialsSection'
+        id:'reviewsSection'
     },
     {
         label:'Contact Us',
@@ -63,7 +63,7 @@ export default function Footer(){
                             {/*Mapping the elements of the constant array into individual list items */}
                             {footerDetails.map((item)=>(        
                                 <li key={item.id}>
-                                    <button className='text-sm' onClick={()=>scrollToSection(item.id)}>
+                                    <button className='text-sm cursor-pointer' onClick={()=>scrollToSection(item.id)}>
                                         {item.label}
                                     </button>
                                 </li>

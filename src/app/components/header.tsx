@@ -2,8 +2,6 @@
 
 // Array of different sections to navigate to
 const sections = [
-
-    // TODO: Mind the functionality for the HOME button
     {
         id:'homeSection',
         name: 'Home'
