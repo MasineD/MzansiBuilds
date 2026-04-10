@@ -20,10 +20,25 @@ const userProjects =[
         collaborators: '2',
         startDate: '14/04/2026',
         endDate: '25/04/2026',
+    },
+    {
+        title: 'Lorem ipsum',
+        description: 'iwubfofffffffoi osnvlm wnf  peeeee vmmmmmm  sssssss vv eewk vkv kmvi sonso sknvkvv eovn',
+        progress: '67',
+        collaborators: '2',
+        startDate: '14/04/2026',
+        endDate: '25/04/2026',
     }
 ]
 // Projects that belong to other developers
 const otherProjects =[
+    {
+        title: 'Lorem ipsum',
+        description: 'iwubfofffffffoi osnvlm wnf  peeeee vmmmmmm  sssssss vv eewk vkv kmvi sonso sknvkvv eovn',
+        progress: '67',
+        startDate: '14/04/2026',
+        endDate: '25/04/2026',
+    },
     {
         title: 'Lorem ipsum',
         description: 'iwubfofffffffoi osnvlm wnf  peeeee vmmmmmm  sssssss vv eewk vkv kmvi sonso sknvkvv eovn',
@@ -56,8 +71,8 @@ export default function Overview(){
             </div>
             <div className="overviewContent">
                 {/* TODO: Enable scroll functionality along the y */}
-                <ul className="personalProjects grid grid-cols-1 gap-6 overflow-y">
-                    <h4 className="overviewSubtitle flex items-center justify-center text-[24px] underline">My Projects</h4>
+                <ul className="personalProjects grid grid-cols-1 gap-6 overflow-y-auto max-h-[500px] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+                    <h4 className="overviewSubtitle flex items-center justify-center text-[24px] underline sticky top-0 backdrop-blur-sm rounded-md z-10 py-2">My Projects</h4>
                     {userProjects.map((userProj,index) => (
                         <li key={index} className="userProject border border-1 border-white/50 p-4 rounded-md">
                             <div className="titleAndProgress flex items-end justify-between">
@@ -74,8 +89,8 @@ export default function Overview(){
                     ))}
                 </ul>
                 {/* TODO: Enable scroll functionality along the y */}
-                <div className="otherProjects grid grid-cols-1 gap-4 overflow-y mr-20">
-                    <h4 className="overviewSubtitle flex items-center justify-center text-[24px] underline">Collaborate</h4>
+                <div className="otherProjects grid grid-cols-1 gap-4 overflow-y-auto max-h-[500px] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] mr-20">
+                    <h4 className="overviewSubtitle flex items-center justify-center text-[24px] underline sticky top-0 backdrop-blur-sm rounded-md z-10 py-2">Collaborate</h4>
                     {otherProjects.map((project,index) => (
                         <div key={index} className="otherProject border-b">
                             <div className="titleAndProgress flex items-end justify-between">

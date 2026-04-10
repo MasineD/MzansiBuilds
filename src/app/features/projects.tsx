@@ -26,6 +26,14 @@ const userProjects =[
         collaborators: '2',
         startDate: '14/04/2026',
         endDate: '25/04/2026',
+    },
+    {
+        title: 'Lorem ipsum',
+        description: 'iwubfofffffffoi osnvlm wnf  peeeee vmmmmmm  sssssss vv eewk vkv kmvi sonso sknvkvv eovn',
+        progress: '67',
+        collaborators: '2',
+        startDate: '14/04/2026',
+        endDate: '25/04/2026',
     }
 ]
 
@@ -38,9 +46,9 @@ const [isAddNewProject, setAddNewProject] = useState(false);
                 <h2 className="featureTitle">Projects</h2>
                 <p className="featureDescription">Keeping track of your projects.</p>
             </div>
-            <div className="projectsContent">
+            <div className="projectsContent overflow-y-auto max-h-[calc(100vh-170px)] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
                 <div className="personalProjects">
-                    <button onClick={() => setAddNewProject(true)}className="newProjectButton ml-[84%] mb-6 bg-green-500 p-2 rounded-md hover:bg-[#00ff00] hover:shadow-[4px_4px_10px_0px_#00ff00] transition-shadow duration-300 hover:scale-105 cursor-pointer">New Project</button>
+                    <button onClick={() => setAddNewProject(true)}className="newProjectButton ml-[84%] mb-6 bg-green-500 p-2 rounded-md hover:bg-[#00ff00] hover:shadow-[4px_4px_10px_0px_#00ff00] transition-shadow duration-300 hover:scale-105 cursor-pointer sticky top-0 z-10">New Project</button>
                     {userProjects.map((userProj,index) => (
                         <div key={index} className="userProject border-b">
                             <div className="titleAndProgress flex items-end justify-between">
