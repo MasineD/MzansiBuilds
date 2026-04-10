@@ -1,4 +1,5 @@
 // ========= Celebration wall, users who completed a project are automatically added here===========
+import "../app.css";
 
 // placeholder data of achievers
 const achievers = [
@@ -35,9 +36,10 @@ export default function CelebrationWall(){
                 <h2 className="featureTitle">Celebration Wall</h2>
                 <p className="featureDescription">Celebrate your achievements with other achievers.</p>
             </div>
+            <div className='celebrationWall h-[100%]'>
             <div className="celebrationWallContent overflow-y-auto max-h-[calc(100vh-120px)] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
                 {achievers.map((achiever,index)=>(
-                    <div className="achieverDetails border-b pl-16 py-4">
+                    <div className="achieverDetails bg-white/50 text-black mb-4 rounded border-b pl-16 py-4">
                         <p className="achieverName">Fullname: {achiever.fullname}</p>
                         <p className="achieverRole">Role: {achiever.role}</p>
                         <h4 className="pl-[25%] font-bold text-white/50">Recent Project</h4>
@@ -45,6 +47,7 @@ export default function CelebrationWall(){
                         <p className="achievedProjectDate">Due Date: {achiever.dueDate}</p>
                     </div>
                 ))}
+            </div>
             </div>
         </div>
     )
