@@ -44,6 +44,7 @@ body {
 /* ========== Styling the feature components */
 .featureHeader{
   @apply bg-blue-500 h-[18dvh] flex flex-col items-center justify-center border border-b-1
+    bg-gradient-to-b from-black via-black/90 to-green-500
 }
 .featureTitle{
   @apply font-bold text-[30px]
@@ -51,11 +52,23 @@ body {
 .featureDescription{
   @apply text-[20px]
 }
+.overview{
+  @apply bg-cover bg-center bg-no-repeat backdrop-blur-sm;
+  background-image: url('images/landingPage.jpg');
+}
 .overviewContent{
   @apply flex gap-30 px-[5dvw] py-[10dvh]
 }
+.projects{
+  @apply bg-cover bg-center bg-no-repeat backdrop-blur-lg;
+  background-image: url('images/collaboration.jpg');
+}
 .projectsContent{
   @apply flex justify-center py-[10dvh]
+}
+.celebrationWall{
+  @apply bg-cover bg-center bg-no-repeat backdrop-blur-sm;
+  background-image: url('images/celebration.jpg');
 }
 .celebrationWallContent{
   @apply mx-[10dvw] py-[10dvh]
@@ -66,4 +79,7 @@ body {
 }
 .newProjectDetail_Input{
   @apply w-[80%] border border-white/50 rounded-md mx-4 my-2 p-2
+}
+.editProjectBtn{
+  @apply bg-green-500 hover:bg-[#00ff00] hover:shadow-[4px_4px_10px_0px_#00ff00] hover:scale-105 text-white px-4 py-2 rounded-md cursor-pointer transition-colors duration-200
 }
