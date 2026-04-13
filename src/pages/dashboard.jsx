@@ -2,6 +2,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
 import supabase from '../client'
 import EditProfile from '../components/editProfile'
+import '../index.css'
 
 const Dashboard = ({ username, email, onLogout }) => {
 //   const navigate = useNavigate();
@@ -42,7 +43,7 @@ const Dashboard = ({ username, email, onLogout }) => {
 
   return (
     <div className="dashboard">
-      <div className="dashboard-header">
+      <div className="dashboard-header bg-green-500">
         <h1>Welcome <br /> <span>{username}</span></h1>
         <button onClick={onLogout}>Logout</button>
         <Link to='/overview'>Overview</Link>

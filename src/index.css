@@ -1,112 +1,122 @@
 @import 'tailwindcss';
-/* :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
+/* Base styles */
+@layer base {
+  body {
+    @apply m-0 p-0 font-sans antialiased;
+  }
+  
+  * {
+    @apply box-border;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+/* Custom component styles */
+@layer components {
+  /* Dashboard Header Styles */
+  .dashboard-header {
+    @apply bg-gradient-to-r from-blue-600 to-blue-800 
+           text-white 
+           px-6 py-4 
+           rounded-lg 
+           shadow-lg 
+           flex 
+           justify-between 
+           items-center 
+           mb-6;
   }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  
+  /* Alternative styles if you want different variations */
+  .dashboard-header-dark {
+    @apply bg-gray-900 text-white px-6 py-4 rounded-lg shadow-lg flex justify-between items-center mb-6;
+  }
+  
+  .dashboard-header-light {
+    @apply bg-white text-gray-800 px-6 py-4 rounded-lg shadow-md flex justify-between items-center mb-6 border border-gray-200;
+  }
+  
+  .dashboard-header-gradient {
+    @apply bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-4 rounded-lg shadow-lg flex justify-between items-center mb-6;
+  }
+  
+  /* Dashboard Title Styles */
+  .dashboard-title {
+    @apply text-2xl font-bold tracking-wide;
+  }
+  
+  /* Dashboard Subtitle */
+  .dashboard-subtitle {
+    @apply text-sm opacity-90 mt-1;
+  }
+  
+  /* Dashboard Actions */
+  .dashboard-actions {
+    @apply flex gap-3 items-center;
+  }
+  
+  /* Dashboard Button */
+  .dashboard-btn {
+    @apply px-4 py-2 bg-white text-blue-600 rounded-lg font-semibold 
+           hover:bg-blue-50 transition-all duration-300 
+           focus:outline-none focus:ring-2 focus:ring-blue-300;
+  }
+  
+  .dashboard-btn-danger {
+    @apply px-4 py-2 bg-red-500 text-white rounded-lg font-semibold 
+           hover:bg-red-600 transition-all duration-300;
+  }
+  
+  /* Dashboard Stats Cards */
+  .dashboard-stats {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-4 mb-6;
+  }
+  
+  .stat-card {
+    @apply bg-white rounded-lg shadow-md p-4 border border-gray-100 
+           hover:shadow-lg transition-shadow duration-300;
+  }
+  
+  .stat-value {
+    @apply text-2xl font-bold text-gray-800;
+  }
+  
+  .stat-label {
+    @apply text-sm text-gray-600 mt-1;
   }
 }
 
-body {
-  margin: 0;
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+/* Custom utility styles */
+@layer utilities {
+  .text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .animation-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+
+/* Keyframe animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
   }
 }
-p {
-  margin: 0;
-}
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-header {
+    @apply flex-col gap-3 text-center;
+  }
+  
+  .dashboard-actions {
+    @apply flex-col w-full;
+  }
+  
+  .dashboard-btn {
+    @apply w-full;
+  }
 }
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
-} */
