@@ -4,6 +4,7 @@
 import celeb from "../images/celebration.jpg";
 import collab from "../images/collaboration.jpg";
 import proj from "../images/projectManagement.jpg";
+
 // Array of details about the services offered
 const services =[
      {   title:'Project Management',
@@ -16,7 +17,7 @@ const services =[
         description: 
             "Exposing users to an environment where they can view what other developers are working on and ask for collaboration. This influences team work amongst developers, while learning from others."
     },
-     {   title:' Celebration Wall',
+     {   title:'Celebration Wall',
         image: celeb,
         description: 
             "A space where developers can celebrate their achievement alongside other achievers."
@@ -25,22 +26,39 @@ const services =[
 
 export default function Services(){
     return(
-        <section id='servicesSection' className='landingPage_Section'>
-            <div className="">
-                <div className="sectionIntro">      {/*Introductory details to the section*/}
-                    <h2 className="sectionHeading">Our Services</h2>
-                    <p className="miniDescription">
-                        Keeping track of your projects, while collaborating with other developers 
+        <section id='servicesSection' className='py-24 px-4 sm:px-8 lg:px-16 bg-gradient-to-b from-black via-green-900/50 to-black'>
+            <div className="max-w-7xl mx-auto">
+                <div className="sectionIntro text-center mb-12">      {/*Introductory details to the section*/}
+                    <h2 className="sectionHeading text-3xl sm:text-4xl md:text-5xl font-heading font-bold mb-4 bg-gradient-to-r from-white to-green-400 bg-clip-text text-transparent">
+                        Our Services
+                    </h2>
+                    <div className="w-20 h-1 bg-green-500 mx-auto rounded-full mb-6"></div>
+                    <p className="miniDescription text-base sm:text-lg text-green-300 max-w-3xl mx-auto">
+                        Keeping track of your projects, while collaborating with other developers
                     </p>
                 </div>
+                
                 {/* Mapping the elements from the services array into individual cards */}
-                <div className="cardContainer ml-30 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-20">
+                <div className="cardContainer grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {services.map((service,index) => (
-                        <div key={index} className="serviceCard border border-white/10 w-70 rounded-lg shadow-md p-4 text-center shadow-[8px_8px_20px_0px_#2563eb] 
-                            hover:shadow-[8px_8px_20px_0px_#00ff00] transition-shadow duration-300">
-                            <h3 className="serviceTitle text-xl font-bold text-center mb-2">{service.title}</h3>
-                            <img alt={service.title} src={service.image} className="serviceImage mx-auto mb-4 w-100 h-35 rounded-lg"/>
-                            <p className="serviceDescription text-center">{service.description}</p>
+                        <div key={index} className="serviceCard bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-green-500/30 hover:border-green-500 group">
+                            <div className="relative overflow-hidden h-48">
+                                <img 
+                                    alt={service.title} 
+                                    src={service.image} 
+                                    className="serviceImage w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                            </div>
+                            <div className="p-6">
+                                <h3 className="serviceTitle text-xl font-bold text-center mb-3 text-white group-hover:text-green-400 transition-colors duration-300">
+                                    {service.title}
+                                </h3>
+                                <div className="w-12 h-0.5 bg-green-500 mx-auto mb-4 rounded-full"></div>
+                                <p className="serviceDescription text-center text-gray-300 leading-relaxed">
+                                    {service.description}
+                                </p>
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -48,4 +66,3 @@ export default function Services(){
         </section>
     )
 }
-    
