@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import supabase from '../client'
-import CommentsModal from './commentModal'
+import CommentsModal from '../components/commentModal'
 
 const Overview = () => {
   const [recentProjects, setRecentProjects] = useState([])
