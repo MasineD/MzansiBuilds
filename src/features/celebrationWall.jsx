@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import supabase from '../client'
+import '../index.css'
+
 
 const CelebrationWall = () => {
   const [completedProjects, setCompletedProjects] = useState([])
@@ -80,10 +82,9 @@ const CelebrationWall = () => {
 
   return (
     <div className="celebration-wall">
-      <div className="celebration-header">
-        <div className="confetti-icon">🎉</div>
-        <h1>Celebration Wall</h1>
-        <p>Celebrating completed projects and achievements!</p>
+      <div className="featureHeader">
+        <h1 className='featureTitle'>Celebration Wall</h1>
+        <p className='featureSlogan'>Celebrating completed projects and achievements!</p>
       </div>
 
       {/* Statistics Section */}
