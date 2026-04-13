@@ -255,7 +255,7 @@ const Dashboard = ({ username, email, onLogout }) => {
       </aside>
       
       {/* Main Content */}
-      <main className="bg-gradient-to-br from-white-100 to-green-600 w-[80%] overflow-y-auto p-6">
+      <main className="bg-gradient-to-br from-green-600 to-white-100 w-[80%] overflow-y-auto p-6">
         <div className="main-content">
           {navItems.find(item => item.label === activeNav)?.component}
         </div>

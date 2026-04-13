@@ -112,6 +112,9 @@
   .featureSlogan{
     @apply text-lg text-white/50 mt-2;
   } 
+  button{
+    @apply cursor-pointer
+  }
 }
 
 /* Custom utility styles */
