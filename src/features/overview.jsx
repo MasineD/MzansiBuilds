@@ -208,38 +208,46 @@ const Overview = () => {
   }
 
   if (loading) {
-    return <div className="loading">Loading overview...</div>
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-green-900 via-green-800 to-black flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-green-300 border-t-green-600 rounded-full animate-spin mx-auto"></div>
+          <p className="text-green-200 mt-4">Loading overview...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="overview-container bg-black/10 min-h-screen">
-      <div className="featureHeader">
-        <h1 className='featureTitle'>Overview</h1>
-        <p className='featureSlogan'>Browse and interact with all projects in the database</p>
+    <div className="min-h-screen bg-gradient-to-br from-green-900 via-green-800 to-black py-8 px-4">
+      <div className="featureHeader text-center mb-12">
+        <h1 className='featureTitle text-4xl md:text-5xl font-bold text-white mb-2'>Overview</h1>
+        <p className='featureSlogan text-green-200 text-lg'>Browse and interact with all projects in the database</p>
       </div>
 
-      <div className="overview-content grid grid-cols-1 md:grid-cols-2 gap-8 my-15 mx-15">
+      <div className="overview-content grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
         {/* Left Side - Current User's Recent Projects */}
         <div className="recent-projects-side">
-          <div className="section-header">
-            <h2 className='text-center text-2xl font-semibold mb-2'>My Projects</h2>
+          <div className="section-header mb-6">
+            <h2 className='text-center text-2xl font-semibold text-white mb-2'>My Projects</h2>
+            <div className="w-20 h-1 bg-green-500 mx-auto rounded-full"></div>
           </div>
           
           {recentProjects.length === 0 ? (
-            <div className="empty-state">
-              <p>You haven't created any projects yet.</p>
+            <div className="empty-state bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center border border-green-500/30">
+              <p className="text-green-200">You haven't created any projects yet.</p>
             </div>
           ) : (
-            <div className="recent-projects-list">
+            <div className="recent-projects-list space-y-4 max-h-[70vh] overflow-y-auto hide-scrollbar">
               {recentProjects.map(project => {
                 const statusStyle = getStatusColor(project.status)
                 return (
-                  <div key={project.id} className="recent-project-card border p-4 rounded-md">
+                  <div key={project.id} className="recent-project-card bg-white rounded-xl p-4 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                     <div className="project-card-header">
-                      <div className="flex items-center justify-between">
-                        <h3 className='text-[18px] font-semibold'>{project.title}</h3>
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className='text-lg font-semibold text-gray-800'>{project.title}</h3>
                         <span 
-                          className="status-badge rounded-md px-2 py-1 text-xs font-medium"
+                          className="status-badge rounded-full px-3 py-1 text-xs font-medium"
                           style={{ backgroundColor: statusStyle.bg, color: statusStyle.text }}
                         >
                           {project.status?.replace('-', ' ') || 'Planning'}
@@ -255,10 +263,10 @@ const Overview = () => {
                     )}
                     <div className="project-meta grid grid-cols-2 gap-2 mt-3 text-xs text-gray-500">
                       {project.start_date && (
-                        <span>Started: {formatDate(project.start_date)}</span>
+                        <span>📅 Started: {formatDate(project.start_date)}</span>
                       )}
                       {project.end_date && (
-                        <span>Ends: {formatDate(project.end_date)}</span>
+                        <span>📅 Ends: {formatDate(project.end_date)}</span>
                       )}
                     </div>
                   </div>
@@ -270,45 +278,46 @@ const Overview = () => {
 
         {/* Right Side - ALL Projects from Database (Collaborate) */}
         <div className="community-projects-side">
-          <div className="section-header">
-            <h2 className='text-center text-2xl font-semibold mb-2'>Collaborate</h2>
-            <span className="project-count text-sm text-gray-500 block text-center mb-2">Total Projects: {communityProjects.length}</span>
+          <div className="section-header mb-6">
+            <h2 className='text-center text-2xl font-semibold text-white mb-2'>Collaborate</h2>
+            <div className="w-20 h-1 bg-green-500 mx-auto rounded-full mb-2"></div>
+            <span className="project-count text-sm text-green-300 block text-center">Total Projects: {communityProjects.length}</span>
           </div>
 
           {communityProjects.length === 0 ? (
-            <div className="empty-state">
-              <p>No projects found in the database.</p>
+            <div className="empty-state bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center border border-green-500/30">
+              <p className="text-green-200">No projects found in the database.</p>
             </div>
           ) : (
-            <div className="community-projects-list space-y-4">
+            <div className="community-projects-list space-y-4 max-h-[70vh] overflow-y-auto hide-scrollbar">
               {communityProjects.map(project => {
                 const statusStyle = getStatusColor(project.status)
                 return (
-                  <div key={project.id} className="community-project-card border p-4 rounded-md">
+                  <div key={project.id} className="community-project-card bg-white rounded-xl p-4 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                     <div className="project-header-info">
                       <div className="project-title-section flex items-center justify-between mb-2">
-                        <h3 className='text-[18px] font-semibold'>{project.title}</h3>
+                        <h3 className='text-lg font-semibold text-gray-800'>{project.title}</h3>
                         <span 
-                          className="status-badge rounded-md px-2 py-1 text-xs font-medium"
+                          className="status-badge rounded-full px-3 py-1 text-xs font-medium"
                           style={{ backgroundColor: statusStyle.bg, color: statusStyle.text }}
                         >
                           {project.status?.replace('-', ' ') || 'Planning'}
                         </span>
                       </div>
-                      <div className="project-author text-xs text-gray-500 mb-2">
-                        <strong> Owner:</strong> {project.profiles?.username || 'Anonymous User'}
+                      <div className="project-author text-xs text-gray-600 mb-2 pb-2 border-b border-gray-100">
+                        <strong>👤 Owner:</strong> {project.profiles?.username || 'Anonymous User'}
                         {project.profiles?.organisation && (
                           <span className="organisation-detail">
-                            {' '}| {project.profiles.organisation}
+                            {' '}| 🏢 {project.profiles.organisation}
                           </span>
                         )}
                         {project.profiles?.department && (
                           <span className="department-detail">
-                            {' '}| {project.profiles.department}
+                            {' '}| 📁 {project.profiles.department}
                           </span>
                         )}
                         {project.user_id === currentUser?.id && (
-                          <span className="my-project-badge text-blue-500"> (Your Project)</span>
+                          <span className="my-project-badge text-green-600 font-semibold ml-2">(Your Project)</span>
                         )}
                       </div>
                     </div>
@@ -321,24 +330,24 @@ const Overview = () => {
 
                     <div className="project-details grid grid-cols-2 gap-2 mt-3 text-xs text-gray-500">
                       {project.start_date && (
-                        <span>Start Date: {formatDate(project.start_date)}</span>
+                        <span>📅 Start Date: {formatDate(project.start_date)}</span>
                       )}
                       {project.end_date && (
-                        <span>End Date: {formatDate(project.end_date)}</span>
+                        <span>📅 End Date: {formatDate(project.end_date)}</span>
                       )}
                     </div>
 
                     {/* Comment Input Section */}
                     <div className="comment-input-section mt-4">
                       <textarea
-                        className="comment-textarea w-full p-2 border rounded-md text-sm"
+                        className="comment-textarea w-full p-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         placeholder="Write your comment here"
                         value={commentText[project.id] || ''}
                         onChange={(e) => setCommentText(prev => ({ ...prev, [project.id]: e.target.value }))}
                         rows="2"
                       />
                       <button 
-                        className="submit-comment-btn mt-2 px-4 py-1.5 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600"
+                        className="submit-comment-btn mt-2 px-4 py-1.5 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition-colors font-medium"
                         onClick={() => handleCommentSubmit(project.id)}
                       >
                         Submit Comment
@@ -347,16 +356,16 @@ const Overview = () => {
 
                     <div className="project-actions flex gap-2 mt-3">
                       <button 
-                        className="btn-comment px-3 py-1.5 bg-gray-200 rounded-md text-sm hover:bg-gray-300"
+                        className="btn-comment px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors flex items-center gap-1"
                         onClick={() => setSelectedProject(project)}
                       >
                         <MdMessage /> View Comments
                       </button>
                       <button 
-                        className={`btn-raise-hand px-3 py-1.5 rounded-md text-sm ${
+                        className={`btn-raise-hand px-3 py-1.5 rounded-lg text-sm flex items-center gap-1 transition-colors ${
                           userInterests[project.id] 
-                            ? 'bg-green-500 text-white' 
-                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                            ? 'bg-green-600 text-white hover:bg-green-700' 
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
                         onClick={() => toggleRaiseHand(project.id)}
                       >
@@ -378,6 +387,18 @@ const Overview = () => {
           onClose={() => setSelectedProject(null)}
         />
       )}
+
+      {/* Custom styles to hide scrollbars while keeping scroll functionality */}
+      <style jsx>{`
+        .hide-scrollbar {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+        }
+        
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;  /* Chrome, Safari and Opera */
+        }
+      `}</style>
     </div>
   )
 }
