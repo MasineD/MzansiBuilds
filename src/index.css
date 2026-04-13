@@ -13,6 +13,25 @@
 
 /* Custom component styles */
 @layer components {
+  /* ========Styling the authentication pages=========== */
+  .authContainer{
+    @apply flex flex-col items-center justify-center p-8 bg-black/3 rounded-lg shadow-lg w-full max-w-md h-full;
+  }
+  .authHeader{
+    @apply text-5xl font-bold mb-6 text-black;
+  }
+  .authTitle{
+    @apply text-5xl font-bold mb-6 text-black;
+  }
+  .authInput{
+    @apply w-full max-w-sm mb-4 px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-300;
+  }
+  .authButton{
+    @apply w-full text-white py-3 rounded-lg font-semibold bg-green-500 hover:cursor-pointer hover:bg-[#00ff00] hover:shadow-[4px_4px_10px_0px_#00ff00] transition-shadow duration-300 hover:scale-105;
+  }
+  .authLink{
+    @apply text-sm text-blue-500 underline cursor-pointer mt-4;
+  }
   /* Dashboard Header Styles */
   .dashboard-header {
     @apply bg-gradient-to-r from-blue-600 to-blue-800 
