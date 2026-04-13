@@ -1,6 +1,6 @@
 import React,{ useState, useEffect } from 'react'
 import supabase from '../client'
-// import Dashboard from './dashboard'
+import Dashboard from './dashboard'
 
 const UserAuthentication = ({setToken}) => {
   const [email, setEmail] = useState('')
@@ -70,12 +70,11 @@ const UserAuthentication = ({setToken}) => {
 
   return user?.session != null ? (
     <div>
-      {/* <Dashboard
+      <Dashboard
         username={user.session.user.user_metadata.username}
         email={user.session.user.email}
         onLogout={handleLogout}
-      />  */}
-      not logged in
+      /> 
     </div>
   ):(
     <>
