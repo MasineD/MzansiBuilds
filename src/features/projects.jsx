@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import supabase from '../client'
 import ProjectForm from '../components/projectForm'
+import '../index.css'
 
 const Projects = () => {
   const [projects, setProjects] = useState([])
@@ -141,22 +142,23 @@ const Projects = () => {
 
   return (
     <div className="projects-container">
-      <div className="projects-header">
-        <h1>My Projects</h1>
-        <button 
-          className="btn-add"
-          onClick={() => {
-            setEditingProject(null)
-            setShowForm(true)
-          }}
-        >
-          + Add New Project
-        </button>
+      <div className="featureHeader">
+        <h1 className='featureTitle'>My Projects</h1>
+        <p className='featureSlogan'>Manage your projects and track their progress</p>
       </div>
 
       {projects.length === 0 ? (
         <div className="no-projects">
           <p>You don't have any projects yet.</p>
+          <button 
+            className="btn-add"
+            onClick={() => {
+              setEditingProject(null)
+              setShowForm(true)
+            }}
+          >
+            + Add New Project
+          </button>
         </div>
       ) : (
         <div className="projects-grid">
