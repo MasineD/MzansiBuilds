@@ -1,4 +1,4 @@
-// =========The about section, containing details about MiHealth website=========
+// =========The about section, containing details about MzansiBuilds website=========
 import "../index.css";
 // The image used in this section
 import aboutImage from "../images/aboutImage.jpg";

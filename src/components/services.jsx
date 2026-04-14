@@ -1,4 +1,4 @@
-// ========Section about the service offered by MiHealth==============
+// ========Section about the service offered by MzansiBuilds==============
 
 // The images used in this section
 import celeb from "../images/celebration.jpg";
