@@ -52,7 +52,7 @@ const Overview = () => {
     setLoading(true)
     
     try {
-      // Fetch current user's projects (last 2 added)
+      // Fetch current user's projects (last 2 added) - only projects belonging to current user
       const { data: userProjects, error: userError } = await supabase
         .from('projects')
         .select('*')
@@ -63,15 +63,16 @@ const Overview = () => {
       if (userError) {
         console.error('Error fetching user projects:', userError)
       } else {
+        console.log('User projects (only current user):', userProjects)
         setRecentProjects(userProjects || [])
       }
 
-      // Fetch ALL projects from database for community projects
+      // Fetch ALL projects from database for community projects (all users)
       const { data: allProjects, error: allError } = await supabase
         .from('projects')
         .select(`
           *,
-          profiles:user_id (
+          profiles(
             id, 
             username, 
             email, 
@@ -86,7 +87,7 @@ const Overview = () => {
         console.error('Error fetching all projects:', allError)
         alert('Error loading projects: ' + allError.message)
       } else {
-        console.log('All projects from database:', allProjects)
+        console.log('All projects from database (all users):', allProjects)
         setCommunityProjects(allProjects || [])
         
         // Fetch interest counts for all projects
@@ -231,6 +232,7 @@ const Overview = () => {
           <div className="section-header mb-6">
             <h2 className='text-center text-2xl font-semibold text-white mb-2'>My Projects</h2>
             <div className="w-20 h-1 bg-green-500 mx-auto rounded-full"></div>
+            <p className="text-center text-green-300 text-sm mt-2">Showing your last 2 projects</p>
           </div>
           
           {recentProjects.length === 0 ? (
@@ -330,10 +332,10 @@ const Overview = () => {
 
                     <div className="project-details grid grid-cols-2 gap-2 mt-3 text-xs text-gray-500">
                       {project.start_date && (
-                        <span>📅 Start Date: {formatDate(project.start_date)}</span>
+                        <span> Start Date: {formatDate(project.start_date)}</span>
                       )}
                       {project.end_date && (
-                        <span>📅 End Date: {formatDate(project.end_date)}</span>
+                        <span> End Date: {formatDate(project.end_date)}</span>
                       )}
                     </div>
 
