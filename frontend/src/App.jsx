@@ -43,7 +43,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* TODO: Ensure that the routes are correctly protecte */}
+        {/* TODO: Ensure that the routes are correctly protected */}
         <Route path="/" element={user ? <Dashboard user={user} setUser={setUser} /> : <Home />} />
         <Route path="/login" element={user ? <Dashboard user={user} setUser={setUser} /> : <Login setUser={setUser} />} />    {/* If the user is already logged in, redirect to the dashboard, otherwise show the login page */ }
         <Route path="/register" element={user ? <Dashboard user={user} setUser={setUser} /> : <Register setUser={setUser} />} />
