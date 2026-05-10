@@ -3,7 +3,7 @@ import cors from 'cors';        //Allowing Cross-Origin Resource Sharing (CORS) 
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';        //To read environment variables from a .env file, which is useful for storing sensitive information like database credentials and API keys.
 import authRoutes from './routes/auth.js';   //Importing the authentication routes defined in the auth.js file, which will handle user registration, login, and other authentication-related endpoints.
-// import bcrypt from 'bcryptjs';
+import projectRoutes from './routes/projects.js';   //Importing the project routes defined in the projects.js file, which will handle CRUD operations for projects and tasks.
 
 dotenv.config();
 const app = express();
@@ -16,6 +16,7 @@ app.use(cookieParser());
 // app.use(bodyParser.json());
 
 app.use('/api/auth', authRoutes);   //Mounts the authentication routes defined in the authRoutes module at the '/api/auth' path. This means that any requests to endpoints like '/api/auth/register' or '/api/auth/login' will be handled by the corresponding route handlers defined in the authRoutes module.
+app.use('/api/projects', projectRoutes);   //Mounts the project routes defined in the projectRoutes module at the '/api/projects' path. This means that any requests to endpoints like '/api/projects' will be handled by the corresponding route handlers defined in the projectRoutes module.
 // app.get('/', (req, res) => {
 //   res.send('Hello World!');
 // });
