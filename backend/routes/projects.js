@@ -43,7 +43,7 @@ router.post("/projects", async (req,res)=>{     //Make the operation non-blockin
         res.status(500).send("Error occured trying to CREATE a project", err.message)
     }
 });
-// TODO: Uncomment the commented line in PostgreSQL
+// TODO: Uncomment the commented line in PostgreSQL 
 // Fetching all projects
 router.get("/projects", async (req,res)=>{
     try{
