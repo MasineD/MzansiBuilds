@@ -2,6 +2,7 @@ import React,{ useState, useEffect } from 'react'
 import axios from 'axios';
 import { FaPlus } from 'react-icons/fa';
 import ProjectForm from '../components/projectForm';
+import ProjectDetails from '../components/projectDetails';
 import { Link } from 'react-router-dom';
 
 const Projects = () => {
@@ -14,8 +15,10 @@ const Projects = () => {
     projectUrl: '',
     completed: false
   });
-  const [showForm, setShowForm] = useState(false);  //This is to show the form for creating a new project, or editing an existing project. We can use the same form for both operations, and just populate it with the existing project data when editing.
-
+  const [showForm, setShowForm] = useState(false);
+  const [projectDetails, showProjectDetails] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null); // Add this state to store the selected project
+  
   // Fetch all projects from the backend API when the component mounts
   const fetchProjects = async () => {
     try {
@@ -26,9 +29,11 @@ const Projects = () => {
       console.error('Error fetching projects:', error);
     }
   };
+  
   useEffect(() => {
     fetchProjects();
   }, []);
+  
   // Function to add a new project (for testing purposes)
   const addProject = async () => {
     try {
@@ -42,7 +47,7 @@ const Projects = () => {
       };
       const response = await axios.post('http://localhost:5000/api/projects/projects', newProject);
       setProjects([...projects, response.data]);
-      fetchProjects(); // Refresh the project list after adding a new project
+      fetchProjects();
       console.log('Project added:', response.data);
     } catch (error) {
       console.error('Error adding project:', error);
@@ -52,8 +57,14 @@ const Projects = () => {
   // Function to close the form when user clicks cancel, or after successfully adding/editing a project
   const handleCancelForm = () => {
     setShowForm(false);
-    // setEditingProject(null);
-    // setViewingProject(null);
+    showProjectDetails(false);
+    setSelectedProject(null); // Clear selected project when closing
+  };
+  
+  // Function to handle "Read More" click
+  const handleReadMore = (project) => {
+    setSelectedProject(project); // Store the selected project
+    showProjectDetails(true); // Show the details modal
   };
 
   return (
@@ -69,8 +80,6 @@ const Projects = () => {
           <button 
             className="btn-add bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors font-semibold flex items-center gap-2 mx-auto"
             onClick={() => {
-              // setEditingProject(null)
-              // setViewingProject(null)
               setShowForm(true)
             }}
           >
@@ -82,8 +91,6 @@ const Projects = () => {
         <div className="flex justify-end mb-6">
             <button className="btn-add bg-[#00ff00] text-white px-4 py-2 rounded-lg hover:scale-110 transition-colors font-semibold flex items-center gap-2 cursor-pointer"
               onClick={() => {
-                // setEditingProject(null)
-                // setViewingProject(null)
                 setShowForm(true)
               }}>
               <FaPlus /> New Project
@@ -94,13 +101,18 @@ const Projects = () => {
               return (
                 <div key={project.id} className="project-card bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-green-500/30">
                   <h2 className="text-xl font-bold text-white mb-2">{project.title}</h2>
-                  <p className="text-green-200 mb-4">{project.description}</p>
-                  <p className="text-green-200 mb-4">
-                    {project.projectUrl}
+                  <p className="text-green-200 mb-2">{project.description.substring(0, 100)}{project.description.length > 100 ? '...' : ''}</p>
+                  <p className="text-blue-500 underline mb-2">
+                    <Link to={project.projecturl} target='_blank'>{project.projecturl}</Link>
                   </p>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-green-300">Start Date: {project.startDate}</span>
-                    <span className="text-sm text-green-300">End Date: {project.endDate}</span>
+                    <span className="text-sm text-green-300">Start Date: {project.startdate}</span>
+                    <span className="text-sm text-green-300">End Date: {project.enddate}</span>
+                  </div>
+                  <div className="flex items-center justify-end">
+                    <button onClick={() => handleReadMore(project)} className="bg-green-500 text-white p-1 rounded-lg mt-2 cursor-pointer transition-colors">
+                      read more
+                    </button>
                   </div>
                 </div>
               );
@@ -110,12 +122,17 @@ const Projects = () => {
       )}
       {showForm && (
         <ProjectForm
-          // project={viewingProject || editingProject}
-          // onSubmit={handleFormSubmit}
           onCancel={handleCancelForm}
           setProjects={setProjects}
           projects={projects}
-          // isReadOnly={!!viewingProject}
+        />
+      )}
+      {projectDetails && selectedProject && (
+        <ProjectDetails
+          project={selectedProject}
+          showProjectDetails={showProjectDetails}
+          onCancel={handleCancelForm}
+          fetchProjects={fetchProjects} // Pass the fetchProjects function to refresh the project list after editing/deleting
         />
       )}
     </div>
