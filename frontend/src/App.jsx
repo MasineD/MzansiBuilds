@@ -1,120 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import React,{ useEffect, useState } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router';
+import Navbar from './components/navbar';
+import Home from './pages/home';
+import Login from './pages/login';
+import Register from './pages/register';
+import Dashboard from './pages/dashboard';
+import NotFound from './components/notfound';
+import axios from 'axios';
+import './index.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+axios.defaults.withCredentials = true; // This will allow axios to send cookies with requests, which is necessary for session management
+const App = () => {
+  const [user, setUser] = useState(null);
+  // const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  // Managing user sessions, by making requests to the backend to check if the user is logged in, and updating the state accordingly, will go here
+
+  useEffect(() => {
+    // Check if the user is logged in by making a request to the backend, and update the state accordingly
+    const fetchUserSession = async () => {
+      try {
+        // Make a request to the backend to check for a valid session or token
+        const res = await axios.get('/api/auth/current'); // Getting the logged in user from the backend
+        setUser(res.data.user); // If the session is valid, set the user state to the user data returned from the backend
+      } catch (err) {
+        setUser(null);
+        // setError("Failed to check user session");
+      }
+      finally {
+        setLoading(false); // Set loading to false after checking the session
+      }
+    };
+
+    fetchUserSession();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading state while checking the session
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    <BrowserRouter>
+      <Routes>
+        {/* TODO: Ensure that the routes are correctly protected */}
+        <Route path="/" element={user ? <Dashboard user={user} setUser={setUser} /> : <Home />} />
+        <Route path="/login" element={user ? <Dashboard user={user} setUser={setUser} /> : <Login setUser={setUser} />} />    {/* If the user is already logged in, redirect to the dashboard, otherwise show the login page */ }
+        <Route path="/register" element={user ? <Dashboard user={user} setUser={setUser} /> : <Register setUser={setUser} />} />
+        { user && <Route path="/dashboard" element={<Dashboard user={user} setUser={setUser} />}/> } {/* Only render the dashboard route if the user is logged in */ }
+        <Route path="*" element={<NotFound />} /> {/* A catch-all route for undefined paths */ }
+      </Routes>
+    </BrowserRouter>
   )
 }
 
