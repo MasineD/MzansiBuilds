@@ -654,7 +654,7 @@ import React,{ useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import ProjectDetails from '../components/projectDetails';
-import { MdFrontHand, MdMessage, MdNotifications, MdClose } from 'react-icons/md'
+import { MdFrontHand, MdMessage, MdNotifications, MdClose, MdPerson } from 'react-icons/md'
 import CommentsModal from '../components/commentModal'
 
 const Overview = () => {
@@ -875,12 +875,17 @@ const Overview = () => {
               {otherProjects.map(project => {
                 return (
                   <div key={project.id} className="recent-project-card bg-white rounded-xl p-4 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                    <div className="project-card-header">
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className='text-lg font-semibold text-gray-800'>{project.title}</h3>
+                    <div className="project-owner-header">
+                      <div className="mb-2 flex items-center justify-center">
+                        <h3 className='text-lg font-semibold text-gray-800 flex items-center gap-2'>
+                          <MdPerson /> 
+                          {project.name}
+                        </h3>
+                        <p>{project.role}</p>
                       </div>
                     </div>
-                    <div className="project-description">
+                    <div className="project-details">
+                      <h5>{project.title}</h5>
                       <p className="project-description text-gray-600 text-sm mt-2">
                         {project.description}
                       </p>
