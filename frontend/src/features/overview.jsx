@@ -654,8 +654,31 @@ import React from 'react'
 
 const Overview = () => {
   return (
-    <div>
-     The overview page is currently under development. Please check back soon for updates! 
+    <div className="min-h-screen bg-gradient-to-br from-green-900 via-green-800 to-black py-8 px-4">
+      <div className="featureHeader text-center mb-12 border-b border-green-500/30 pb-6">
+        <h1 className='featureTitle text-4xl md:text-5xl font-bold text-white mb-2'>Overview</h1>
+        <p className='featureSlogan text-green-200 text-lg'>Browse and interact with all projects in the database</p>
+      </div>
+
+      {/* Projects container */}
+      <div className="overview-content grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
+        {/* Left Side - Current User's Recent Projects */}
+          <div className="recent-projects-side">
+            <div className="section-header mb-6">
+              <h2 className='text-center text-2xl font-semibold text-white mb-2'>My Projects</h2>
+              <div className="w-20 h-1 bg-green-500 mx-auto rounded-full"></div>
+                <p className="text-center text-green-300 text-sm mt-2">Showing your last 2 projects</p>
+            </div>
+          </div>
+        {/* Right Side - ALL Projects from Database (Collaborate) */}
+          <div className="community-projects-side">
+            <div className="section-header mb-6">
+              <h2 className='text-center text-2xl font-semibold text-white mb-2'>Collaborate</h2>
+              <div className="w-20 h-1 bg-green-500 mx-auto rounded-full mb-2"></div>
+              <span className="project-count text-sm text-green-300 block text-center">Total Projects: {/*communityProjects.length*/}</span>
+            </div>
+          </div>
+      </div>
     </div>
   )
 }
