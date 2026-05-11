@@ -40,18 +40,21 @@ router.get("/otherprojects", protect, async (req, res) => {
         const user_id = req.user.id;
         const allProjects = await pool.query(`
             SELECT 
-                id,
-                user_id,
-                title,
-                description,
-                TO_CHAR(startDate, 'YYYY-MM-DD') as startdate,
-                TO_CHAR(endDate, 'YYYY-MM-DD') as enddate,
-                projectUrl,
-                completed,
-                created_at
-            FROM projects
-            WHERE user_id != $1
-            ORDER BY created_at DESC
+            p.id,
+            p.user_id,
+            p.title,
+            p.description,
+            TO_CHAR(p.startDate, 'YYYY-MM-DD') as startdate,
+            TO_CHAR(p.endDate, 'YYYY-MM-DD') as enddate,
+            p.projectUrl,
+            p.completed,
+            p.created_at,
+            pr.name,
+            pr.role
+        FROM projects p
+        JOIN profiles pr ON p.user_id = pr.id
+        WHERE p.user_id != $1
+        ORDER BY p.created_at DESC
         `, [user_id]);
         
         res.json(allProjects.rows);
