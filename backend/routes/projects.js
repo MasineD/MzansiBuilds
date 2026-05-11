@@ -20,81 +20,117 @@ const generateToken = (id) => {
         { expiresIn: '30d' }); //Generates a JSON Web Token (JWT) that includes the user's ID and username as payload. The token is signed using a secret key from the environment variables and is set to expire in 30 days.
 };
 // Route to create a new project (protected route)
-router.post("/projects", async (req,res)=>{     //Make the operation non-blocking with the async word
+// Route to create a new project (protected route)
+router.post("/projects", protect, async (req, res) => {  // Add protect middleware
     try{
-        const { title, description, startDate, endDate, projectUrl, completed } = req.body;        //Destructuring a TODO's details from the client
-        if(!title || !description || !startDate || !endDate || !projectUrl){     //Check if all the required fields are provided, and if not, send a 400 Bad Request response with an error message.
+        // Get user_id from the authenticated user (added by protect middleware)
+        const user_id = req.user.id;  // This comes from the decoded JWT token
+        
+        const { title, description, startDate, endDate, projectUrl, completed } = req.body;
+        
+        if(!title || !description || !startDate || !endDate || !projectUrl){
             return res.status(400).json({msg: "All fields are required to create a project"});
         }
-        // create the date variables, and convert them to the correct format for the database
+        
         const start = new Date(startDate);
         const end = new Date(endDate);
-        if( start > end){
+        if(start > end){
             return res.status(400).json({msg: "Start date cannot be after end date"});
         }
-        const newProject =  await pool.query(      //Talking to the database, and creating a new task
-            "INSERT INTO projects (title, description, startDate, endDate, projectUrl, completed) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",        //$1 and $2 are parameterised queries, preventing SQL injection attacks. Returning * allows sending the responses back to the frontend
-            [title, description, startDate, endDate, projectUrl, completed || false]
+        
+        // Fix the SQL query - there was a missing comma after user_id
+        const newProject = await pool.query(
+            "INSERT INTO projects (user_id, title, description, startDate, endDate, projectUrl, completed) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+            [user_id, title, description, startDate, endDate, projectUrl, completed || false]
         );
-        res.json(newProject.rows[0]);      //Sending a response back to the frontend, if everything was successful
+        
+        res.json(newProject.rows[0]);
     }
     catch(err){
         console.error(err.message);
-        res.status(500).send("Error occured trying to CREATE a project", err.message)
+        res.status(500).send("Error occurred trying to CREATE a project");
     }
 });
 // TODO: Uncomment the commented line in PostgreSQL 
 // Fetching all projects
-router.get("/projects", async (req,res)=>{
+// Fetching all projects for the authenticated user
+router.get("/projects", protect, async (req, res) => {
     try{
-        const allProjects = await pool.query("SELECT * FROM projects");    //Fetching all projects
-        res.json(allProjects.rows);        //Sending all projects back to the frontend
+        const user_id = req.user.id;
+        const allProjects = await pool.query(`
+            SELECT 
+                id,
+                user_id,
+                title,
+                description,
+                TO_CHAR(startDate, 'YYYY-MM-DD') as startdate,
+                TO_CHAR(endDate, 'YYYY-MM-DD') as enddate,
+                projectUrl,
+                completed,
+                created_at
+            FROM projects
+            WHERE user_id = $1
+            ORDER BY created_at DESC
+        `, [user_id]);
+        
+        res.json(allProjects.rows);
     }
     catch(err){
         console.error(err.message);
-        res.status(500).send("Error occured trying to READ projects", err.message);
+        res.status(500).send("Error occurred trying to READ projects");
     }
 });
-// Updating a project
-// TODO: Handle the project id in the frontend, and send it with the request, so that we can update the correct project in the database. This will allow us to implement project editing functionality in the future.
-router.put("/:id", async(req,res)=>{
+
+// Updating a project (ensure user owns the project)
+router.put("/:id", protect, async(req, res) => {
     try{
         const { id } = req.params;
+        const user_id = req.user.id;
         const { description, startDate, endDate, projectUrl, completed } = req.body;
-        if(!description || !startDate || !endDate || !projectUrl || completed === undefined){
-            return res.status(400).json({msg: "Please provide all required fields to update the project"});
-        }
-        const updateProject =  await pool.query(
-            "UPDATE projects SET description = $1, startDate = $2, endDate = $3, projectUrl = $4, completed = $5 WHERE id = $6 RETURNING *",
-            [description, startDate, endDate, projectUrl, completed || false, id]
+        
+        // First check if project exists and belongs to user
+        const checkProject = await pool.query(
+            "SELECT * FROM projects WHERE id = $1 AND user_id = $2",
+            [id, user_id]
         );
-        if(updateProject.rows.length === 0){
-            return res.status(404).json({msg: "Project not found"});
+        
+        if(checkProject.rows.length === 0){
+            return res.status(404).json({msg: "Project not found or unauthorized"});
         }
+        
+        const updateProject = await pool.query(
+            "UPDATE projects SET description = $1, startDate = $2, endDate = $3, projectUrl = $4, completed = $5 WHERE id = $6 AND user_id = $7 RETURNING *",
+            [description, startDate, endDate, projectUrl, completed, id, user_id]
+        );
+        
         res.json({ message: "UPDATE successful", project: updateProject.rows[0]});
     }
     catch(err){
         console.error(err.message);
-        res.status(500).send("Error occured trying to UPDATE a project", err.message);
+        res.status(500).send("Error occurred trying to UPDATE a project");
     }
 });
-// Deleting a project
-router.delete("/:id", async(req,res)=>{
+
+// Deleting a project (ensure user owns the project)
+router.delete("/:id", protect, async(req, res) => {
     try{
         const { id } = req.params;
+        const user_id = req.user.id;
+        
         const deleteResult = await pool.query(
-            "DELETE FROM projects WHERE id = $1 RETURNING *",
-            [id]
+            "DELETE FROM projects WHERE id = $1 AND user_id = $2 RETURNING *",
+            [id, user_id]
         );
+        
         if (deleteResult.rows.length === 0) {
-            return res.status(404).json({msg: "Project not found"});
+            return res.status(404).json({msg: "Project not found or unauthorized"});
         }
+        
         res.json({ message: "Project successfully deleted", project: deleteResult.rows[0] });
     }
     catch(err){
         console.error(err.message);
-        res.status(500).send("Error occured trying to DELETE a project", err.message);
+        res.status(500).send("Error occurred trying to DELETE a project");
     }
 });
-
 export default router;
