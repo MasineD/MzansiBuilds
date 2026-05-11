@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import supabase from '../client'
+// import supabase from '../client'
 import { MdClose, MdDelete, MdSend } from 'react-icons/md'
 
-const CommentsModal = ({ project, onClose }) => {
+const CommentsModal = ({ project, onCancel }) => {
   const [comments, setComments] = useState([])
   const [newComment, setNewComment] = useState('')
   const [loading, setLoading] = useState(true)
@@ -15,20 +15,20 @@ const CommentsModal = ({ project, onClose }) => {
   }, [project.id])
 
   const getCurrentUser = async () => {
-    const { data: { user } } = await supabase.auth.getUser()
+    // const { data: { user } } = await supabase.auth.getUser()
     setCurrentUser(user)
   }
 
   const fetchComments = async () => {
     setLoading(true)
-    const { data, error } = await supabase
-      .from('comments')
-      .select(`
-        *,
-        profiles:user_id (username, email)
-      `)
-      .eq('project_id', project.id)
-      .order('created_at', { ascending: false })
+    // const { data, error } = await supabase
+    //   .from('comments')
+    //   .select(`
+    //     *,
+    //     profiles:user_id (username, email)
+    //   `)
+    //   .eq('project_id', project.id)
+    //   .order('created_at', { ascending: false })
 
     if (error) {
       console.error('Error fetching comments:', error)
@@ -46,20 +46,20 @@ const CommentsModal = ({ project, onClose }) => {
     }
 
     setSubmitting(true)
-    const { data, error } = await supabase
-      .from('comments')
-      .insert([
-        {
-          project_id: project.id,
-          user_id: currentUser.id,
-          comment: newComment
-        }
-      ])
-      .select(`
-        *,
-        profiles:user_id (username, email)
-      `)
-      .single()
+    // const { data, error } = await supabase
+    //   .from('comments')
+    //   .insert([
+    //     {
+    //       project_id: project.id,
+    //       user_id: currentUser.id,
+    //       comment: newComment
+    //     }
+    //   ])
+    //   .select(`
+    //     *,
+    //     profiles:user_id (username, email)
+    //   `)
+    //   .single()
 
     if (error) {
       alert('Error adding comment: ' + error.message)
@@ -74,10 +74,10 @@ const CommentsModal = ({ project, onClose }) => {
     const confirmed = window.confirm('Are you sure you want to delete this comment?')
     if (!confirmed) return
 
-    const { error } = await supabase
-      .from('comments')
-      .delete()
-      .eq('id', commentId)
+    // const { error } = await supabase
+    //   .from('comments')
+    //   .delete()
+    //   .eq('id', commentId)
 
     if (error) {
       alert('Error deleting comment: ' + error.message)
@@ -104,7 +104,7 @@ const CommentsModal = ({ project, onClose }) => {
   return (
     <div 
       className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
-      onClick={onClose}
+      onClick={onCancel}
     >
       <div 
         className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden shadow-2xl"
@@ -117,8 +117,8 @@ const CommentsModal = ({ project, onClose }) => {
             <p className="text-sm text-green-100">{project.title}</p>
           </div>
           <button 
-            className="text-white/70 hover:text-white transition-colors p-1 rounded-full hover:bg-white/10"
-            onClick={onClose}
+            className="text-white/70 hover:text-white transition-colors p-1 rounded-full hover:bg-white/10 cursor-pointer"
+            onClick={onCancel}
           >
             <MdClose size={24} />
           </button>
