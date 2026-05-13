@@ -100,7 +100,15 @@ const Projects = () => {
             {projects.map(project => {
               return (
                 <div key={project.id} className="project-card bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-green-500/30">
-                  <h2 className="text-xl font-bold text-white mb-2">{project.title}</h2>
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-xl font-bold text-white mb-2">{project.title}</h2>
+                    {project.completed && (
+                      <div className='text-[#00ff00]'>completed</div>
+                    )}
+                    {!project.completed && (
+                    <div className='text-[#ff4500]'>in progress</div>
+                    )}
+                  </div>
                   <p className="text-green-200 mb-2">{project.description.substring(0, 100)}{project.description.length > 100 ? '...' : ''}</p>
                   <p className="text-blue-500 underline mb-2">
                     <Link to={project.projecturl} target='_blank'>{project.projecturl}</Link>

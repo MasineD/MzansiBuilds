@@ -82,36 +82,36 @@
 //     }
 //   }
 
-//   const addMilestone = () => {
-//     if (isReadOnly) return
-//     if (milestones.length < 10) {
-//       const newMilestone = {
-//         id: `temp-${Date.now()}-${milestones.length}`,
-//         title: '',
-//         description: '',
-//         status: 'incomplete',
-//         display_order: milestones.length
-//       }
-//       setMilestones([...milestones, newMilestone])
-//     }
-//   }
+  // const addMilestone = () => {
+  //   if (isReadOnly) return
+  //   if (milestones.length < 10) {
+  //     const newMilestone = {
+  //       id: `temp-${Date.now()}-${milestones.length}`,
+  //       title: '',
+  //       description: '',
+  //       status: 'incomplete',
+  //       display_order: milestones.length
+  //     }
+  //     setMilestones([...milestones, newMilestone])
+  //   }
+  // }
 
-//   const removeMilestone = (index) => {
-//     if (isReadOnly) return
-//     const updatedMilestones = milestones.filter((_, i) => i !== index)
-//     // Update display order
-//     updatedMilestones.forEach((milestone, idx) => {
-//       milestone.display_order = idx
-//     })
-//     setMilestones(updatedMilestones)
-//   }
+  // const removeMilestone = (index) => {
+  //   if (isReadOnly) return
+  //   const updatedMilestones = milestones.filter((_, i) => i !== index)
+  //   // Update display order
+  //   updatedMilestones.forEach((milestone, idx) => {
+  //     milestone.display_order = idx
+  //   })
+  //   setMilestones(updatedMilestones)
+  // }
 
-//   const handleMilestoneChange = (index, field, value) => {
-//     if (isReadOnly) return
-//     const updatedMilestones = [...milestones]
-//     updatedMilestones[index][field] = value
-//     setMilestones(updatedMilestones)
-//   }
+  // const handleMilestoneChange = (index, field, value) => {
+  //   if (isReadOnly) return
+  //   const updatedMilestones = [...milestones]
+  //   updatedMilestones[index][field] = value
+  //   setMilestones(updatedMilestones)
+  // }
 
 //   const handleSubmit = async (e) => {
 //     e.preventDefault()
@@ -459,10 +459,18 @@
 import React,{ useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import axios from 'axios'
+import Milestones from './milestones'
 
 const ProjectForm = ({ onCancel, setProjects, projects }) => {
   const [isReadOnly, setIsReadOnly] = useState(false)
   const [dateError, setDateError] = useState('')
+  
+  const [milestones, setMilestones] = useState([]);
+  const [milestoneData, setMilestoneData] = useState({
+    description: '',
+    completed: false
+  });
+
 
   const [formData, setFormData] = useState({
     title: '',
@@ -485,7 +493,6 @@ const addProject = async (e) => {
   }
   
   try {
-    // Use formData instead of hardcoded values
     const response = await axios.post('http://localhost:5000/api/projects/projects', formData);
     
     // Add the new project to the existing projects list
@@ -507,6 +514,29 @@ const addProject = async (e) => {
       console.error('Error adding project:', error.response?.data || error.message);
   }
 };
+
+// Function to add a milestone
+const addMilestone = async (e) =>{
+  e.preventDefault();
+  if(!milestoneData.description){
+    console.error("Please enter milestone description");
+    return;
+  }
+  try{
+    const response = await axios.post('http://localhost:5000/api/milestone', milestoneData);
+    // Add the new project to the existing projects list
+    setMilestones([...milestones, response.data]);
+    
+    // Reset form after successful submission
+    setMilestoneData({
+        description: '',
+        completed: false
+    });
+  }
+  catch(error){
+    console.error('Error adding a milestone:', error.response?.data || error.message);
+  }
+}
   
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
@@ -544,6 +574,31 @@ const addProject = async (e) => {
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#00ff00] focus:border-[#00ff00] transition-all text-gray-800 resize-y"/>
               </div>
 
+              {/* Milestones field */}
+              {/* < Milestones isReadOnly={isReadOnly}/> */}
+              <div className="flex items-center justify-between pb-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Milestones
+                </label>
+                <span className="text-sm text-gray-500">
+                  {milestones.length}/10
+                </span>
+              </div>
+              {!isReadOnly && milestones.length < 10 && (
+                <div className="flex items-center justify-between gap-2 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#00ff00] focus:border-[#00ff00] transition-all text-gray-800">
+                    <input type="text" value={milestoneData.description} onChange={(e)=>setMilestoneData({...milestoneData, description : e.target.value})} placeholder='Milestone Description' className='w-full outline-none'/>
+                    <input type="checkbox" value={milestoneData.completed} onChange={(e)=>setMilestoneData({...milestoneData, completed : e.target.value})} name={milestoneData.completed} id="" className='cursor-pointer'/>
+                </div>
+            )}
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Project Url
+                </label>
+                <input type="text" value={formData.projectUrl} onChange={(e) => setFormData({...formData, projectUrl: e.target.value})}
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#00ff00] focus:border-[#00ff00] transition-all text-gray-800"/>
+              </div>
+
               {/* Date Fields Row */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -561,14 +616,6 @@ const addProject = async (e) => {
                   <input type="date" value={formData.endDate} onChange={(e) => setFormData({...formData, endDate: e.target.value})}
                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#00ff00] focus:border-[#00ff00] transition-all text-gray-800"/>
                 </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Project Url
-                  </label>
-                  <input type="text" value={formData.projectUrl} onChange={(e) => setFormData({...formData, projectUrl: e.target.value})}
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#00ff00] focus:border-[#00ff00] transition-all text-gray-800"/>
-                </div>
               </div>
               {/* Form buttons */}
               <div className='flex items-center justify-end gap-4 mt-6'>
@@ -581,175 +628,6 @@ const addProject = async (e) => {
                   Cancel
                 </button>
               </div>
-              
-              {/* Date Error Message */}
-              {/* {dateError && !isReadOnly && (
-                <div className="text-red-600 text-sm mt-1">
-                  {dateError}
-                </div>
-              )} */}
-
-              {/* Status Field */}
-              {/* <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Status
-                </label>
-                <select
-                  value={formData.status}
-                  onChange={(e) => !isReadOnly && setFormData({...formData, status: e.target.value})}
-                  disabled={isReadOnly}
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
-                    isReadOnly 
-                      ? 'bg-gray-100 border-gray-200 cursor-not-allowed text-gray-800' 
-                      : 'border-gray-300 focus:ring-green-500 focus:border-transparent text-gray-800 bg-white'
-                  }`}
-                >
-                  <option value="planning">Planning</option>
-                  <option value="in-progress">In Progress</option>
-                  <option value="completed">Completed</option>
-                  <option value="on-hold">On Hold</option>
-                  <option value="cancelled">Cancelled</option>
-                </select>
-              </div>
-            </div> */}
-
-            {/* Milestones Section */}
-            {/* <div className="space-y-4">
-              <div className="flex items-center justify-between border-b pb-2">
-                <h3 className="text-lg font-semibold text-gray-800">
-                  Milestones
-                </h3>
-                <span className="text-sm text-gray-500">
-                  {milestones.length}/10 milestones
-                </span>
-              </div>
-              
-              <p className="text-sm text-gray-600 mb-4">
-                Add milestones to track your project progress. When all milestones are marked as complete, the project status will automatically change to "Completed".
-              </p>
-              
-              {milestones.length > 0 && (
-                <div className="space-y-3 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
-                  {milestones.map((milestone, index) => (
-                    <div key={milestone.id || index} className="milestone-item border border-gray-200 rounded-lg p-4 bg-gray-50 hover:shadow-md transition-shadow">
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center gap-2">
-                          {milestone.status === 'complete' ? (
-                            <FaCheck className="text-green-600 text-sm" />
-                          ) : (
-                            <FaCircle className="text-gray-400 text-xs" />
-                          )}
-                          <span className="font-semibold text-gray-700">
-                            Milestone {index + 1}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className={`text-xs px-2 py-1 rounded-full ${getMilestoneStatusColor(milestone.status)}`}>
-                            {milestone.status === 'complete' ? 'Completed' : 'Incomplete'}
-                          </span>
-                          {!isReadOnly && (
-                            <>
-                              <button
-                                type="button"
-                                onClick={() => handleMilestoneChange(index, 'status', 
-                                  milestone.status === 'complete' ? 'incomplete' : 'complete'
-                                )}
-                                className={`text-xs px-3 py-1 rounded-lg transition-colors ${
-                                  milestone.status === 'complete'
-                                    ? 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                                    : 'bg-green-600 text-white hover:bg-green-700'
-                                }`}
-                              >
-                                {milestone.status === 'complete' ? 'Mark Incomplete' : 'Mark Complete'}
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => removeMilestone(index)}
-                                className="text-red-600 hover:text-red-700 transition-colors p-1"
-                                title="Remove milestone"
-                              >
-                                <FaTrash size={14} />
-                              </button>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                      
-                      <input
-                        type="text"
-                        value={milestone.title}
-                        onChange={(e) => handleMilestoneChange(index, 'title', e.target.value)}
-                        disabled={isReadOnly}
-                        placeholder="Enter milestone title"
-                        className={`w-full px-3 py-2 mb-2 border rounded-lg focus:outline-none focus:ring-2 text-sm ${
-                          isReadOnly 
-                            ? 'bg-gray-100 border-gray-200 cursor-not-allowed text-gray-800' 
-                            : 'border-gray-300 focus:ring-green-500 text-gray-800'
-                        }`}
-                      />
-                      
-                      <textarea
-                        value={milestone.description || ''}
-                        onChange={(e) => handleMilestoneChange(index, 'description', e.target.value)}
-                        disabled={isReadOnly}
-                        placeholder="Milestone description (optional)"
-                        rows="2"
-                        className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 text-sm resize-y ${
-                          isReadOnly 
-                            ? 'bg-gray-100 border-gray-200 cursor-not-allowed text-gray-800' 
-                            : 'border-gray-300 focus:ring-green-500 text-gray-800'
-                        }`}
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
-              
-              {/* Add Milestone Button 
-              {!isReadOnly && milestones.length < 10 && (
-                <button
-                  type="button"
-                  onClick={addMilestone}
-                  className="w-full mt-4 px-4 py-3 border-2 border-dashed border-green-400 rounded-lg text-green-600 hover:bg-green-50 hover:border-green-500 transition-all duration-300 flex items-center justify-center gap-2 font-semibold"
-                >
-                  <FaPlus /> Add Milestone ({10 - milestones.length} remaining)
-                </button>
-              )}
-              
-              {milestones.length === 0 && (
-                <div className="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-                  <p className="text-gray-500 mb-2">No milestones added yet</p>
-                  <p className="text-sm text-gray-400">
-                    {isReadOnly 
-                      ? 'This project has no milestones' 
-                      : 'Click the button above to add your first milestone'}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          Form Buttons
-          <div className="flex gap-4 mt-8 pt-4 border-t border-gray-200 sticky bottom-0 bg-white pb-2">
-            {!isReadOnly && (
-              <button
-                type="submit"
-                disabled={loading || !!dateError}
-                className="flex-1 bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <FaSave /> {loading ? 'Saving...' : 'Save Project'}
-              </button>
-            )}
-            <button
-              type="button"
-              onClick={onCancel}
-              className={`${
-                isReadOnly ? 'flex-1' : 'flex-1'
-              } bg-gray-200 text-gray-700 px-6 py-2 rounded-lg font-semibold hover:bg-gray-300 transition-all duration-300 flex items-center justify-center gap-2`}
-            >
-              <FaTimes /> {isReadOnly ? 'Close' : 'Cancel'}
-            </button>
-          </div> */}
           </div>
           </div>
           </form>
