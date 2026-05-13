@@ -39,6 +39,7 @@ import Overview from '../features/overview'
 import Projects from '../features/projects'
 import CelebrationWall from '../features/celebrationWall'
 import '../index.css'
+import { FaPencilAlt } from 'react-icons/fa'
 
 const Dashboard = ({ user, setUser }) => {
   const navigate = useNavigate()
@@ -173,9 +174,10 @@ const Dashboard = ({ user, setUser }) => {
           </div>
            
         {/* Edit Profile Button */}
+        <FaPencilAlt size={20}/>
         <div className="editProfileBtnContainer">
           <button onClick={() => setShowEditProfile(true)} className="text-white/30 cursor-pointer hover:scale-105">
-            Edit Profile
+             Edit Profile
           </button>
         </div>
         </div>
