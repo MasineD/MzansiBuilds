@@ -86,6 +86,7 @@ router.put("/:id", protect, async(req, res) => {
     try{
         const { id } = req.params;
         const user_id = req.user.id;
+        
         const { description, startDate, endDate, projectUrl, completed } = req.body;
         
         // First check if project exists and belongs to user
