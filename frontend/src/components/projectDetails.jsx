@@ -110,6 +110,21 @@ const ProjectDetails = ({ project, showProjectDetails, onCancel, fetchProjects }
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#00ff00] focus:border-[#00ff00] transition-all text-gray-800 resize-y"/>
               </div>
 
+              {/* Completed Field - Checkbox */}
+              <div className="flex items-center gap-3">
+                <input 
+                  type="checkbox" 
+                  id="completed"
+                  checked={formData.completed}
+                  onChange={(e) => isEditing && setFormData({...formData, completed: e.target.checked})}
+                  disabled={!isEditing}
+                  className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                />
+                <label htmlFor="completed" className="text-sm font-semibold text-gray-700">
+                  Completed
+                </label>
+              </div>
+
               {/* Milestones field */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between pb-2">
