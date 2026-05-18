@@ -151,6 +151,10 @@ const Dashboard = ({ user, setUser }) => {
     { label: 'Celebration Wall', component: <CelebrationWall /> }
   ]
 
+  const handleSaveProfile = async () => {
+    
+  }
+
   return (
     <div className="flex min-h-screen max-h-screen fixed bg-black w-full">
       {/* Sidebar */}
@@ -173,13 +177,15 @@ const Dashboard = ({ user, setUser }) => {
             <p className="text-white/60 text-sm">{user?.email}</p>
           </div>
            
-        {/* Edit Profile Button */}
-        <FaPencilAlt size={20}/>
-        <div className="editProfileBtnContainer">
-          <button onClick={() => setShowEditProfile(true)} className="text-white/30 cursor-pointer hover:scale-105">
-             Edit Profile
-          </button>
-        </div>
+          {/* Edit Profile Button - Icon only, positioned to the right */}
+          <div className="editProfileBtnContainer w-full px-4 mt-2">
+            <button 
+              onClick={() => setShowEditProfile(true)} 
+              className="text-white/30 cursor-pointer hover:scale-105 transition-all duration-300 flex justify-end items-center w-full hover:text-[#00ff00]"
+            >
+              <FaPencilAlt size={18} />
+            </button>
+          </div>
         </div>
         
         {/* Navigation Links */}
