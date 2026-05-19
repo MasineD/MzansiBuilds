@@ -21,7 +21,7 @@ const Overview = () => {
     try {
       const response = await axios.get('http://localhost:5000/api/myprojects');
       setMyProjects(response.data);
-      console.log('Successfuly fetched my projects:', response.data);
+      // console.log('Successfuly fetched my projects:', response.data);
     } catch (error) {
       console.error('Error fetching my projects:', error);
     }
@@ -31,7 +31,7 @@ const Overview = () => {
     try {
       const response = await axios.get('http://localhost:5000/api/otherprojects');
       setOtherProjects(response.data);
-      console.log('Successfuly fetched other projects:', response.data);
+      // console.log('Successfuly fetched other projects:', response.data);
     } catch (error) {
       console.error('Error fetching other projects:', error);
     }

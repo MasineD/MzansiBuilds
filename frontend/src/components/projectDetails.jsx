@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { FaTimes } from 'react-icons/fa'
 import axios from 'axios'
-import { FaPencilAlt, FaTrash, FaPlus } from 'react-icons/fa';
+import { FaPencilAlt, FaTrash, FaPlus, FaTimes  } from 'react-icons/fa';
 
 const ProjectDetails = ({ project, showProjectDetails, onCancel, fetchProjects }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -242,8 +241,8 @@ const ProjectDetails = ({ project, showProjectDetails, onCancel, fetchProjects }
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl animate-in fade-in zoom-in duration-300 custom-scrollbar">
-        <div className="sticky bg-white top-0 p-6 border-b z-10">
+      <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl animate-in fade-in zoom-in duration-300 custom-scrollbar [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+        <div className="sticky bg-white top-0 p-6 z-10">
           <div className='flex items-center justify-end'>
             <FaTimes className="text-gray-600 hover:text-gray-800 hover:scale-110 transition-transform cursor-pointer" onClick={onCancel} size={25}/>
           </div>
@@ -523,11 +522,8 @@ const ProjectDetails = ({ project, showProjectDetails, onCancel, fetchProjects }
                   </button>
                 )}
                 {isEditing && (
-                  <button 
-                    type="submit"
-                    className="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 hover:scale-110 transition-all duration-300 flex items-center justify-center cursor-pointer"
-                  >
-                    Save Changes
+                  <button type="submit" className="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 hover:scale-110 transition-all duration-300 flex items-center justify-center cursor-pointer">
+                    Save 
                   </button>
                 )}
                 {isEditing && (
