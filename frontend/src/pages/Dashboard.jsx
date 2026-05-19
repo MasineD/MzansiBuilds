@@ -179,10 +179,8 @@ const Dashboard = ({ user, setUser }) => {
            
           {/* Edit Profile Button - Icon only, positioned to the right */}
           <div className="editProfileBtnContainer w-full px-4 mt-2">
-            <button 
-              onClick={() => setShowEditProfile(true)} 
-              className="text-white/30 cursor-pointer hover:scale-105 transition-all duration-300 flex justify-end items-center w-full hover:text-[#00ff00]"
-            >
+            <button onClick={() => setShowEditProfile(true)} 
+              className="text-white cursor-pointer hover:scale-105 transition-all duration-300 flex justify-end items-center w-full hover:text-[#00ff00]">
               <FaPencilAlt size={18} />
             </button>
           </div>
