@@ -99,15 +99,23 @@ const Projects = () => {
           <div className="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
             {projects.map(project => {
               return (
-                <div key={project.id} className="project-card bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-green-500/30">
-                  <h2 className="text-xl font-bold text-white mb-2">{project.title}</h2>
-                  <p className="text-green-200 mb-2">{project.description.substring(0, 100)}{project.description.length > 100 ? '...' : ''}</p>
-                  <p className="text-blue-500 underline mb-2">
+                <div key={project.id} className="project-card bg-white rounded-2xl p-6 border border-green-500/30 flex flex-col h-full">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-lg font-semibold text-gray-800">{project.title}</h2>
+                    {project.completed && (
+                      <div className='text-[#00ff00]'>completed</div>
+                    )}
+                    {!project.completed && (
+                    <div className='text-[#ff4500]'>in progress</div>
+                    )}
+                  </div>
+                  <p className="text-gray-600 mb-2 break-words whitespace-normal overflow-wrap break-word">{project.description.substring(0, 100)}{project.description.length > 100 ? '...' : ''}</p>
+                  <p className="text-blue-500 underline mb-2 break-all">
                     <Link to={project.projecturl} target='_blank'>{project.projecturl}</Link>
                   </p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-green-300">Start Date: {project.startdate}</span>
-                    <span className="text-sm text-green-300">End Date: {project.enddate}</span>
+                  <div className="flex justify-between items-center mt-auto">
+                    <span className="text-sm text-gray-500">Start Date: {project.startdate}</span>
+                    <span className="text-sm text-gray-500">End Date: {project.enddate}</span>
                   </div>
                   <div className="flex items-center justify-end">
                     <button onClick={() => handleReadMore(project)} className="bg-green-500 text-white p-1 rounded-lg mt-2 cursor-pointer transition-colors">

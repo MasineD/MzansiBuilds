@@ -5,6 +5,9 @@ import dotenv from 'dotenv';        //To read environment variables from a .env 
 import authRoutes from './routes/auth.js';   //Importing the authentication routes defined in the auth.js file, which will handle user registration, login, and other authentication-related endpoints.
 import projectRoutes from './routes/projects.js';   //Importing the project routes defined in the projects.js file, which will handle CRUD operations for projects and tasks.
 import overviewRoutes from './routes/overview.js';  //Importing routes to user-specific projects and other projects
+import milestoneRoutes from './routes/milestones.js';
+import celebrationRoute from './routes/celebration.js';
+import profileRoute from './routes/profile.js';
 
 dotenv.config();
 const app = express();
@@ -14,14 +17,13 @@ app.use(cors({
 }));
 app.use(express.json());        //Middleware to parse incoming JSON requests and make the data available in req.body. This is essential for handling API requests that send data in JSON format, such as user registration and login requests.
 app.use(cookieParser());
-// app.use(bodyParser.json());
 
 app.use('/api/auth', authRoutes);   //Mounts the authentication routes defined in the authRoutes module at the '/api/auth' path. This means that any requests to endpoints like '/api/auth/register' or '/api/auth/login' will be handled by the corresponding route handlers defined in the authRoutes module.
 app.use('/api/projects', projectRoutes);   //Mounts the project routes defined in the projectRoutes module at the '/api/projects' path. This means that any requests to endpoints like '/api/projects' will be handled by the corresponding route handlers defined in the projectRoutes module.
-app.use('/api', overviewRoutes)
-// app.get('/', (req, res) => {
-//   res.send('Hello World!');
-// });
+app.use('/api', overviewRoutes);
+app.use('/api', milestoneRoutes);
+app.use('/api', celebrationRoute);
+app.use('/api', profileRoute)
 
 const Port = process.env.PORT || 5000;
 app.listen(Port, () => {        //Server listens on port 5000
