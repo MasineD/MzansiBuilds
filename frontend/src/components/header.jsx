@@ -43,7 +43,7 @@ export default function Header() {
             <button
               key={section.id}
               onClick={() => scrollToSection(section.id)}
-              className="relative text-sm lg:text-base font-medium px-4 py-2 text-white hover:text-green-400 transition-all duration-300 group"
+              className="relative text-sm lg:text-base font-medium px-4 py-2 text-white hover:text-green-400 transition-all duration-300 group cursor-pointer"
             >
               {section.name}
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-green-500 transition-all duration-300 group-hover:w-full"></span>
