@@ -28,7 +28,7 @@ router.post("/projects", protect, async (req, res) => {  // Add protect middlewa
         
         const { title, description, startDate, endDate, projectUrl, completed } = req.body;
         
-        if(!title || !description || !startDate || !endDate || !projectUrl){
+        if(!title || !description || !startDate || !endDate ){
             return res.status(400).json({msg: "All fields are required to create a project"});
         }
         
@@ -113,25 +113,40 @@ router.put("/:id", protect, async(req, res) => {
 });
 
 // Deleting a project (ensure user owns the project)
+// Add this to your existing project DELETE route to also delete milestones
 router.delete("/:id", protect, async(req, res) => {
     try{
         const { id } = req.params;
         const user_id = req.user.id;
         
+        // First check if project exists and belongs to user
+        const checkProject = await pool.query(
+            "SELECT * FROM projects WHERE id = $1 AND user_id = $2",
+            [id, user_id]
+        );
+        
+        if(checkProject.rows.length === 0){
+            return res.status(404).json({msg: "Project not found or unauthorized"});
+        }
+        
+        // Delete all milestones associated with this project first
+        await pool.query(
+            "DELETE FROM milestones WHERE project_id = $1",
+            [id]
+        );
+        
+        // Then delete the project
         const deleteResult = await pool.query(
             "DELETE FROM projects WHERE id = $1 AND user_id = $2 RETURNING *",
             [id, user_id]
         );
         
-        if (deleteResult.rows.length === 0) {
-            return res.status(404).json({msg: "Project not found or unauthorized"});
-        }
-        
-        res.json({ message: "Project successfully deleted", project: deleteResult.rows[0] });
+        res.json({ message: "Project and all associated milestones successfully deleted", project: deleteResult.rows[0] });
     }
     catch(err){
         console.error(err.message);
         res.status(500).send("Error occurred trying to DELETE a project");
     }
 });
+
 export default router;
