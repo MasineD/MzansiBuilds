@@ -16,26 +16,25 @@ const Overview = () => {
   const [notifications, setNotifications] = useState([])
   const [showNotifications, setShowNotifications] = useState(false)
   
-  // Fetch projects that belong to the current user
-  const fetchMyProjects = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/myprojects');
-      setMyProjects(response.data);
-      // console.log('Successfuly fetched my projects:', response.data);
-    } catch (error) {
-      console.error('Error fetching my projects:', error);
-    }
-  };
-  // Fetch other projects from the backend
-  const fetchOtherProjects = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/otherprojects');
-      setOtherProjects(response.data);
-      // console.log('Successfuly fetched other projects:', response.data);
-    } catch (error) {
-      console.error('Error fetching other projects:', error);
-    }
-  };
+  // Fetch projects that belong to the current user (owner + collaborator)
+const fetchMyProjects = async () => {
+  try {
+    const response = await axios.get('http://localhost:5000/api/myprojects');  // This now includes collaborator projects
+    setMyProjects(response.data);
+  } catch (error) {
+    console.error('Error fetching my projects:', error);
+  }
+};
+
+// Fetch other projects from the backend (excluding user's own and collaborator projects)
+const fetchOtherProjects = async () => {
+  try {
+    const response = await axios.get('http://localhost:5000/api/otherprojects');
+    setOtherProjects(response.data);
+  } catch (error) {
+    console.error('Error fetching other projects:', error);
+  }
+};
   
   useEffect(() => {
     fetchMyProjects();
