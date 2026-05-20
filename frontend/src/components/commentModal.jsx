@@ -543,6 +543,7 @@ const CommentsModal = ({ project, onCancel, currentUser, socket }) => {
           projectOwnerId: project.user_id,
           projectTitle: project.title,
           commenterName: currentUser?.name || 'Someone',
+          commenterEmail: currentUser?.email,
           commentText: newComment,
           projectId: project.id
         })
