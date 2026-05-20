@@ -24,7 +24,7 @@ router.get("/myprojects", protect, async (req, res) => {
             FROM projects
             WHERE user_id = $1
             ORDER BY created_at DESC
-            LIMIT 3
+            LIMIT 5
         `, [user_id]);
         
         res.json(allProjects.rows);

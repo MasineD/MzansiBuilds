@@ -22,7 +22,7 @@ router.get("/profile", protect, async (req, res) => {
                 role,
                 created_at
             FROM profiles
-            WHERE user_id = $1
+            WHERE id = $1
         `, [user_id]);
         
         if (myProfile.rows.length === 0) {
