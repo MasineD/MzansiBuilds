@@ -7,6 +7,7 @@ import Projects from '../features/projects'
 import CelebrationWall from '../features/celebrationWall'
 import '../index.css'
 import { FaPencilAlt } from 'react-icons/fa'
+import {MdMenu, MdClose} from 'react-icons/md'
 
 const Dashboard = ({ user, setUser }) => {
   const navigate = useNavigate()
@@ -17,7 +18,7 @@ const Dashboard = ({ user, setUser }) => {
   const [isEditing, setIsEditing] = useState(false)
   const [editForm, setEditForm] = useState({})
 
-  // ========== FIXED: Verify session on mount and refresh user data ==========
+  // ========== Verify session on mount and refresh user data ==========
   useEffect(() => {
     const verifySession = async () => {
       try {
@@ -84,7 +85,7 @@ const Dashboard = ({ user, setUser }) => {
       <div className="flex min-h-screen max-h-screen fixed bg-black w-full">
         {/* Sidebar */}
         <aside className="bg-black w-[20%] overflow-y-auto">
-          {/* Header */}
+          {/* Sidebar Header */}
           <div className="sdHeader flex items-center justify-center h-[10%] pt-6">
             <span className="text-[30px] font-heading font-bold text-white">MzansiBuilds</span>
           </div>

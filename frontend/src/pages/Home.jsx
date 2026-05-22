@@ -1,16 +1,3 @@
-// import React from 'react'
-// import Navbar from '../components/navbar';
-
-// const Home = () => {
-//   return (
-//     <div>
-//       <Navbar />
-//       <p>The home page will go here</p>
-//     </div>
-//   )
-// }
-
-// export default Home
 import Header from '../components/header';
 import About from '../components/about';
 import Services from '../components/services';
@@ -43,7 +30,7 @@ export default function Home() {
               Join a community of innovators, developers, and creators sharing their journey, 
               getting real-time feedback, and building amazing projects together.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <div className="flex flex-row gap-4 justify-center lg:justify-start">
               <button 
                 onClick={() => navigate('/login')} 
                 className="bg-[#00ff00] text-white px-8 sm:px-10 py-3 sm:py-4 rounded-md text-base sm:text-lg font-medium hover:shadow-[0_0_20px_#00ff00] transition-all duration-300 hover:scale-105 hover:cursor-pointer"
@@ -55,7 +42,7 @@ export default function Home() {
                   const el = document.getElementById('aboutSection');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }} 
-                className="bg-transparent border-2 border-green-500 text-green-400 px-8 sm:px-10 py-3 sm:py-4 rounded-md text-base sm:text-lg font-medium hover:bg-[#00ff00] hover:text-white hover:border-[#00ff00] hover:shadow-[0_0_20px_#00ff00] transition-all duration-300 hover:scale-105 hover:cursor-pointer"
+                className="bg-transparent border-2 border-green-500 text-green-400 px-8 sm:px-10 py-3 sm:py-4 rounded-md text-base sm:text-lg font-medium hover:border-[#00ff00] hover:shadow-[0_0_20px_#00ff00] transition-all duration-300 hover:scale-105 hover:cursor-pointer"
               >
                 Learn More
               </button>
