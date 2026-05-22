@@ -91,13 +91,16 @@ const Dashboard = ({ user, setUser }) => {
   return (
     <div>
       <div className="flex min-h-screen max-h-screen fixed bg-black w-full">
-        {/* Sidebar */}
-        {/* Buttons to show and close menu icon */}
-        <button onClick={()=>setShowSidebar(!showSidebar)}
-          className='cursor-pointer lg:hidden'>
-          {showSidebar ? < MdClose size={40}/> : <MdMenu size={40}/>}
+        {/* Menu Icon - Only visible on small/medium screens */}
+        <button 
+          onClick={() => setShowSidebar(!showSidebar)}
+          className='fixed top-4 left-4 z-50 cursor-pointer lg:hidden bg-black/80 p-2 rounded-lg'
+        >
+          {showSidebar ? <MdClose size={30} /> : <MdMenu size={30} />}
         </button>
-        <aside className="hidden lg:w-[20%] bg-black overflow-y-auto">
+
+        {/* Sidebar for Large Screens (lg and above) */}
+        <aside className="hidden lg:block lg:w-[20%] bg-black overflow-y-auto">
           {/* Sidebar Header */}
           <div className="sdHeader flex items-center justify-center h-[10%] pt-6">
             <span className="text-[30px] font-heading font-bold text-white">MzansiBuilds</span>
@@ -156,75 +159,85 @@ const Dashboard = ({ user, setUser }) => {
         </aside>
         
         {/* Main Content */}
-        <main className="bg-gradient-to-br from-green-600 to-white-100 w-[90%] lg:w-[80%] overflow-y-auto p-6">
+        <main className="bg-gradient-to-br from-green-600 to-white-100 w-full lg:w-[80%] overflow-y-auto p-6">
           <div className="main-content">
             {navItems.find(item => item.label === activeNav)?.component}
           </div>
         </main>
       </div>
 
-      {showEditProfile && (
-        <EditProfile closeProfile={closeProfile} />
-      )}
-
+      {/* Mobile/Tablet Sidebar Overlay (shown when menu icon is clicked) */}
       {showSidebar && (
-        <aside className="w-[80%] bg-black overflow-y-auto">
-          {/* Sidebar Header */}
-          <div className="sdHeader flex items-center justify-center h-[10%] pt-6">
-            <span className="text-[30px] font-heading font-bold text-white">MzansiBuilds</span>
-          </div>
+        <>
+          {/* Backdrop overlay */}
+          <div 
+            className="fixed inset-0 bg-black/70 z-40 lg:hidden"
+            onClick={() => setShowSidebar(false)}
+          />
           
-          {/* User Profile Section */}
-          <div className="userProfile flex items-center justify-center flex-col border-b border-gray-700 pb-6">
-            <div className="profilePhoto flex items-center justify-center w-[13dvw] h-[26dvh] bg-green-600 rounded-[50%] text-black mt-4">
-              <span className="text-[60px] font-bold text-gray-300">
-                {getInitials(user?.name)}
-              </span>
+          {/* Sidebar for mobile/tablet */}
+          <aside className="fixed top-0 left-0 w-[80%] h-full z-50 bg-black overflow-y-auto lg:hidden">
+            {/* Sidebar Header */}
+            <div className="sdHeader flex items-center justify-center h-[10%] pt-6">
+              <span className="text-[30px] font-heading font-bold text-white">MzansiBuilds</span>
             </div>
-            <div className="userDetails text-center mt-3">
-              <h3 className="userFullName text-[22px] text-white">{user?.name}</h3>
-              <p className="text-white/60 text-sm">{user?.email}</p>
+            
+            {/* User Profile Section */}
+            <div className="userProfile flex items-center justify-center flex-col border-b border-gray-700 pb-6">
+              <div className="profilePhoto flex items-center justify-center w-[30vw] h-[20vh] bg-green-600 rounded-[50%] text-black mt-4">
+                <span className="text-[60px] font-bold text-gray-300">
+                  {getInitials(user?.name)}
+                </span>
+              </div>
+              <div className="userDetails text-center mt-3">
+                <h3 className="userFullName text-[22px] text-white">{user?.name}</h3>
+                <p className="text-white/60 text-sm">{user?.email}</p>
+              </div>
+               
+              {/* Edit Profile Button */}
+              <div className="editProfileBtnContainer w-full px-4 mt-2">
+                <button onClick={() => setShowEditProfile(true)} 
+                  className="text-white cursor-pointer hover:scale-105 transition-all duration-300 flex justify-end items-center w-full hover:text-[#00ff00]">
+                  <FaPencilAlt size={18} />
+                </button>
+              </div>
             </div>
-             
-            {/* Edit Profile Button */}
-            <div className="editProfileBtnContainer w-full px-4 mt-2">
-              <button onClick={() => setShowEditProfile(true)} 
-                className="text-white cursor-pointer hover:scale-105 transition-all duration-300 flex justify-end items-center w-full hover:text-[#00ff00]">
-                <FaPencilAlt size={18} />
+            
+            {/* Navigation Links */}
+            <div className="features mt-4">
+              <nav className="sideBarNavigation flex flex-col py-[16px] mx-2">
+                {navItems.map(({ label }) => (
+                  <button
+                    key={label}
+                    onClick={() => locateFeature(label)}
+                    className="flex items-center gap-[12px] w-[100%] py-[12px] px-[20px] bg-transparent cursor-pointer transition-all duration-100"
+                    style={{
+                      color: activeNav === label ? '#ffffff' : '#9ca3af',
+                      borderLeft: activeNav === label ? '5px solid #00ff00' : '5px solid transparent',
+                      fontSize: '20px',
+                      fontWeight: activeNav === label ? 600 : 400
+                    }}
+                  >
+                    <span>{label}</span>
+                  </button>
+                ))}
+              </nav>
+            </div>
+            
+            {/* Sign Out Button */}
+            <div className="logout px-4 mt-8 mb-8">
+              <button 
+                className="text-white cursor-pointer bg-[rgba(255,255,255,0.2)] text-[20px] font-600 w-full py-[10px] rounded-md hover:bg-[rgba(255,255,255,0.3)] hover:scale-105 transition-all duration-300" 
+                onClick={handleLogout}>
+                Sign Out
               </button>
             </div>
-          </div>
-          
-          {/* Navigation Links */}
-          <div className="features mt-4">
-            <nav className="sideBarNavigation flex flex-col py-[16px] mx-2">
-              {navItems.map(({ label }) => (
-                <button
-                  key={label}
-                  onClick={() => setActiveNav(label)}
-                  className="flex items-center gap-[12px] w-[100%] py-[12px] px-[20px] bg-transparent cursor-pointer transition-all duration-100"
-                  style={{
-                    color: activeNav === label ? '#ffffff' : '#9ca3af',
-                    borderLeft: activeNav === label ? '5px solid #00ff00' : '5px solid transparent',
-                    fontSize: '20px',
-                    fontWeight: activeNav === label ? 600 : 400
-                  }}
-                >
-                  <span>{label}</span>
-                </button>
-              ))}
-            </nav>
-          </div>
-          
-          {/* Sign Out Button */}
-          <div className="logout px-4 mt-8">
-            <button 
-              className="text-white cursor-pointer bg-[rgba(255,255,255,0.2)] text-[20px] font-600 w-full py-[10px] rounded-md hover:bg-[rgba(255,255,255,0.3)] hover:scale-105 transition-all duration-300" 
-              onClick={handleLogout}>
-              Sign Out
-            </button>
-          </div>
-        </aside>
+          </aside>
+        </>
+      )}
+
+      {showEditProfile && (
+        <EditProfile closeProfile={closeProfile} />
       )}
     </div>
   )
