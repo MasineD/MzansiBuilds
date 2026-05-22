@@ -174,8 +174,8 @@ const Overview = () => {
   };
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-900 via-green-800 to-black py-8 px-4">
-      <div className="featureHeader text-center mb-12 border-b border-green-500/30 pb-6 sticky top-0 z-20 bg-transparent">
+    <div className="min-h-screen bg-gradient-to-br from-green-900 via-green-800 to-black px-4">
+      <div className="featureHeader text-center mb-12 border-b backdrop-blur-sm border-green-500/30 py-3 sticky top-0 z-20 bg-transparent">
         <h1 className='featureTitle text-4xl md:text-5xl font-bold text-white mb-2'>Overview</h1>
         <p className='featureSlogan text-green-200 text-lg'>Browse and interact with all projects in the database</p>
 
@@ -266,7 +266,7 @@ const Overview = () => {
       )}
 
       {/* Projects container */}
-      <div className="overview-content flex flex-col gap-8">
+      <div className="overview-content flex flex-col pb-8 gap-8">
         {/* My Projects Section - Carousel on all screens */}
         <div className="recent-projects-side">
           <div className="section-header mb-6">
@@ -286,7 +286,7 @@ const Overview = () => {
                 </style>
                 {myProjects.map(project => {
                   return (
-                    <div key={project.id} className="bg-white rounded-xl p-4 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 w-[350px] flex-shrink-0 snap-start">
+                    <div key={project.id} className="bg-white/70 rounded-xl p-4 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 w-[350px] flex-shrink-0 snap-start">
                       <div className="project-card-header">
                         <div className="flex items-center justify-between">
                           <h2 className="text-lg font-semibold text-gray-800">{project.title}</h2>
@@ -356,7 +356,7 @@ const Overview = () => {
                   </style>
                   {otherProjects.map(project => {
                     return (
-                      <div key={project.id} className="bg-white rounded-xl p-4 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 w-[350px] flex-shrink-0 snap-start">
+                      <div key={project.id} className="bg-white/70 rounded-xl p-4 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 w-[350px] flex-shrink-0 snap-start">
                         <div className="project-owner-header">
                           <div className="mb-2 flex items-center justify-between">
                             <h3 className='text-md font-semibold text-gray-800 flex items-center gap-2'>
