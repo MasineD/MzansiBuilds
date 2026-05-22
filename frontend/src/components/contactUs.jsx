@@ -22,7 +22,7 @@ const developerDetails = [
 export default function ContactUs(){
     return(
         <section id='contactSection' className='py-24 px-4 sm:px-8 lg:px-16 bg-gradient-to-b from-black via-green-900/50 to-black'>
-            <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 mx-auto">
                 <div className="sectionIntro text-center mb-12">      {/*Introductory details to the section*/}
                     <h2 className="sectionHeading text-3xl sm:text-4xl md:text-5xl font-heading font-bold mb-4 bg-gradient-to-r from-white to-green-400 bg-clip-text text-transparent">
                         Contact Us
@@ -34,7 +34,7 @@ export default function ContactUs(){
                 </div>
                 
                 {/* Mapping the elements from the developerDetails array into individual cards */}
-                <div className="contactSection_Details flex flex-col lg:flex-row gap-8 lg:gap-12 items-start justify-center">
+                <div className="contactSection_Details flex flex-col mx-auto md:mx-0 md:flex-row gap-8 lg:gap-12 items-start justify-center">
                     {/* Send Message Form */}
                     <div className="sendMessage_field flex-1 bg-white/10 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-green-500/30">
                         <h3 className="text-xl font-semibold text-white mb-4 text-center">Send us a message</h3>
