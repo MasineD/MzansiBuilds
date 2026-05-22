@@ -13,7 +13,7 @@ const CelebrationWall = () => {
     try {
       const response = await axios.get('http://localhost:5000/api/celebrationWall');
       setCompletedProjects(response.data);
-      console.log('Successfully fetched completed projects:', response.data);
+      console.log('Successfuly fetched completed projects:', response.data);
     } catch (error) {
       console.error('Error fetching completed projects:', error);
     }
@@ -41,22 +41,22 @@ const CelebrationWall = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-900 via-green-800 to-black py-8 px-4">
-      <div className="featureHeader text-center border-b border-green-500/30 pb-6 mb-12">
+      <div className="featureHeader sticky top-0 z-10 backdrop-blur-sm text-center border-b border-green-500/30 pb-6 mb-12">
         <h1 className='featureTitle text-4xl md:text-5xl font-bold text-white mb-2'>Celebration Wall</h1>
         <p className='featureSlogan text-green-200 text-lg'>Celebrating completed projects and achievements!</p>
       </div>
 
-      {/* Statistics Section - Cards always side by side */}
+      {/* Statistics Section */}
       {completedProjects.length > 0 && (
-        <div className="stats-container flex justify-center gap-6 mb-12 overflow-x-auto px-4" style={{ flexWrap: 'nowrap' }}>
-          <div className="stat-card bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center min-w-[180px] flex-shrink-0 border border-green-500/30 shadow-lg">
+        <div className="stats-container flex justify-center gap-6 mb-12 flex-wrap">
+          <div className="stat-card bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center min-w-[180px] border border-green-500/30 shadow-lg">
             <div className="stat-icon text-4xl mb-2 flex justify-center">
               <FaTrophy className="text-green-400" />
             </div>
             <div className="stat-number text-3xl font-bold text-green-400">{completedProjects.length}</div>
             <div className="stat-label text-green-200 text-sm uppercase tracking-wide">Completed Projects</div>
           </div>
-          <div className="stat-card bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center min-w-[180px] flex-shrink-0 border border-green-500/30 shadow-lg">
+          <div className="stat-card bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center min-w-[180px] border border-green-500/30 shadow-lg">
             <div className="stat-icon text-4xl mb-2 flex justify-center">
               <FaUsers className="text-green-400" />
             </div>
@@ -85,7 +85,7 @@ const CelebrationWall = () => {
         <>
           <div className="celebration-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
             {completedProjects.map((project, index) => (
-              <div key={project.id} className="celebration-card w-[350px] bg-white rounded-xl p-6 relative overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105"
+              <div key={project.id} className="celebration-card w-[350px] bg-white/70 rounded-xl p-6 relative overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105"
                 style={{ animationDelay: `${index * 0.1}s` }}>
                 <div className="celebration-badge absolute top-3 right-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
                   <FaTrophy className="text-xs" />
@@ -94,7 +94,7 @@ const CelebrationWall = () => {
                 
                 <h3 className="project-title text-lg font-semibold text-gray-800 mb-2">{project.title}</h3>
                 
-                <div className="project-owner bg-gray-50 rounded-lg p-3 mb-4">
+                <div className="project-owner  rounded-lg p-3 mb-4">
                   <div className="owner-info flex items-center gap-2 text-sm text-gray-700 mb-2">
                     <FaUser className="text-green-600" />
                     <span className="owner-name font-semibold">{project.name}</span>
@@ -107,7 +107,7 @@ const CelebrationWall = () => {
                   )}
                 </div>
                 
-                <div className="project-completion bg-green-50 rounded-lg p-3 mb-4">
+                <div className="project-completion rounded-lg p-3 mb-4">
                   <div className="completion-date flex items-center gap-2 text-sm text-green-800 mb-1">
                     <FaCalendarAlt className="text-green-600" />
                     <span>Completed on: {project.enddate}</span>
