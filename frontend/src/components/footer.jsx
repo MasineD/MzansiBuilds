@@ -1,6 +1,7 @@
 // ========== The footer section, containing extra details about the website and the developer=========
 
-import { FaHandsHelping, FaTwitter, FaLinkedin, FaGithub } from 'react-icons/fa';
+import { FaHandsHelping, FaTwitter, FaLinkedin, FaGithub, FaCopyright } from 'react-icons/fa';
+import { MdCopyright } from 'react-icons/md';
 
 // An array containing details for the footer section
 const footerDetails = [
@@ -39,7 +40,7 @@ const legalDetials = [
         link: "#"
     },
     {
-        label: 'Terms of Service',
+        label: 'Terms of Use',
         link: "#"
     }
 ]
@@ -52,11 +53,11 @@ export default function Footer(){
     }
     
     return(
-        <footer className="bg-gradient-to-t from-black via-green-900 to-black py-16 mt-15 px-4 sm:px-8 lg:px-16">
+        <footer className="  bg-gradient-to-t from-black via-green-900 to-black py-16 mt-15 px-4 sm:px-8 lg:px-16">
             <div className="footerContainer max-w-7xl mx-auto">
-                <div className="cardContainer grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
+                <div className="cardContainer space-y-6 space-x-4 grid grid-cols-2 md:grid-cols-4">
                     {/* Website Summary */}
-                    <div className="websiteSummary space-y-4">
+                    <div className="websiteSummary space-y-3">
                         <div className="flex items-center space-x-2">
                             <span className="websiteName text-xl md:text-2xl font-heading font-bold bg-gradient-to-r from-white to-green-400 bg-clip-text text-transparent">
                                 MzansiBuilds
@@ -135,9 +136,8 @@ export default function Footer(){
                 
                 {/* Copyright Section */}
                 <div className="copyright pt-8 border-t border-green-500/30 text-center">
-                    <p className="copyrightDetails text-sm text-gray-400 flex items-center justify-center gap-2">
-                        © {new Date().getFullYear()} MzansiBuilds. All rights reserved. Built with{' '}
-                        <FaHandsHelping className="text-green-400 inline-block w-4 h-4" />{' '}
+                    <p className="copyrightDetails text-sm text-gray-400 inline-flex">
+                        <MdCopyright size={20}/> {new Date().getFullYear()} MzansiBuilds. All rights reserved. Built
                         for the developer community.
                     </p>
                 </div>
