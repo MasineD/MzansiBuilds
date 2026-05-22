@@ -94,7 +94,7 @@ const Dashboard = ({ user, setUser }) => {
         {/* Menu Icon - Only visible on small/medium screens */}
         <button 
           onClick={() => setShowSidebar(!showSidebar)}
-          className='fixed top-4 left-4 z-50 cursor-pointer lg:hidden bg-black/80 p-2 rounded-lg'
+          className='fixed top-1 left-1 z-50 cursor-pointer lg:hidden bg-black/80 p-2 rounded-lg'
         >
           {showSidebar ? <MdClose size={30} /> : <MdMenu size={30} />}
         </button>
@@ -170,10 +170,7 @@ const Dashboard = ({ user, setUser }) => {
       {showSidebar && (
         <>
           {/* Backdrop overlay */}
-          <div 
-            className="fixed inset-0 bg-black/70 z-40 lg:hidden"
-            onClick={() => setShowSidebar(false)}
-          />
+          <div className="fixed inset-0 bg-black/70 z-40 lg:hidden" onClick={() => setShowSidebar(false)}/>
           
           {/* Sidebar for mobile/tablet */}
           <aside className="fixed top-0 left-0 w-[80%] h-full z-50 bg-black overflow-y-auto lg:hidden">
