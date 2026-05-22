@@ -84,7 +84,7 @@ const Dashboard = ({ user, setUser }) => {
     <div>
       <div className="flex min-h-screen max-h-screen fixed bg-black w-full">
         {/* Sidebar */}
-        <aside className="bg-black w-[20%] overflow-y-auto">
+        <aside className="bg-black w-[5%] lg:w-[20%] overflow-y-auto">
           {/* Sidebar Header */}
           <div className="sdHeader flex items-center justify-center h-[10%] pt-6">
             <span className="text-[30px] font-heading font-bold text-white">MzansiBuilds</span>
