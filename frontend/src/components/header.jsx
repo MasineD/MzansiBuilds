@@ -1,4 +1,6 @@
 // ========== Header section,containing the website name and the navigation bar=============
+import { MdMenu, MdClose } from 'react-icons/md'
+import React, { useState } from 'react'
 
 // Array of different sections to navigate to
 const sections = [
@@ -21,10 +23,12 @@ const sections = [
 ]
 
 export default function Header() {
+  const [showMobile, setShowMobile] = useState(false)
 //   Scrolling to the correct section when user clicks on the navigation bar
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
+    setShowMobile(false)
   };
 
   return (
@@ -37,9 +41,10 @@ export default function Header() {
           </span>
         </div>
         
-        {/* The navigation bar and its navigation links */}
-        <nav className="hidden md:flex items-center space-x-6 lg:space-x-10">
-          {sections.map((section) => (
+        <nav className="">
+          {/* The desktop navigation bar and its navigation links */}
+          <div className="hidden md:flex items-center space-x-6 lg:space-x-10">
+            {sections.map((section) => (
             <button
               key={section.id}
               onClick={() => scrollToSection(section.id)}
@@ -49,8 +54,31 @@ export default function Header() {
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-green-500 transition-all duration-300 group-hover:w-full"></span>
             </button>
           ))}
+          </div>
+
+           {/* The mobile navigation bar and its navigation links */}
+          <button onClick={()=>setShowMobile(!showMobile)}
+            className='cursor-pointer md:hidden'>
+            {showMobile ? < MdClose size={40}/> : <MdMenu size={40}/>}
+          </button>
         </nav>
       </div>
+      {showMobile && (
+          <div className="md:hidden w-full flex items-center justify-center backdrop-blur-sm">
+            <div className="px-6 py-6 flex flex-col gap-4">
+            {sections.map((section) => (
+            <button
+              key={section.id}
+              onClick={() => scrollToSection(section.id)}
+              className="relative w-full text-sm lg:text-base font-medium px-4 py-2 text-white hover:text-green-400  hover:scale-110 transition-all duration-300 group cursor-pointer"
+            >
+              {section.name}
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-green-500 transition-all duration-300 group-hover:w-full"></span>
+            </button>
+          ))}
+          </div>
+          </div>
+        )}
     </header>
   );
 }
