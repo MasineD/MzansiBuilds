@@ -44,6 +44,10 @@ import milestoneRoutes from './routes/milestones.js';
 import overviewRoutes from './routes/overview.js';  //Importing routes to user-specific projects and other projects
 import celebrationRoute from './routes/celebration.js';
 import commentRoutes from './routes/comments.js';
+import collaborateRoutes from './routes/collaborators.js'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const app = express();
 const server = http.createServer(app);
@@ -65,11 +69,12 @@ app.use(cookieParser());
 // ========== EXISTING ROUTES ==========
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
-app.use('/api/profile', profileRoutes);
+app.use('/api', profileRoutes);
 app.use('/api', milestoneRoutes); // or whatever path you use
 app.use('/api', overviewRoutes);
 app.use('/api', celebrationRoute);
 app.use('/api/comments', commentRoutes);
+app.use('/api', collaborateRoutes)
 
 // ========== SOCKET.IO CODE (ADD THIS) ==========
 // Store online users and their socket IDs
@@ -86,7 +91,7 @@ io.on('connection', (socket) => {
 
   // Handle comment notifications
   socket.on('send-comment', (data) => {
-    const { projectOwnerId, projectTitle, commenterName, commentText, projectId } = data;
+    const { projectOwnerId, projectTitle, commenterName, commenterEmail, commentText, projectId } = data;
     
     const ownerSocketId = onlineUsers.get(projectOwnerId);
     
@@ -94,7 +99,7 @@ io.on('connection', (socket) => {
       io.to(ownerSocketId).emit('new-notification', {
         type: 'comment',
         title: 'New Comment',
-        message: `${commenterName} commented on your project "${projectTitle}": "${commentText.substring(0, 50)}${commentText.length > 50 ? '...' : ''}"`,
+        message: `${commenterName} <${commenterEmail}> commented on your project "${projectTitle}": "${commentText.substring(0, 50)}${commentText.length > 50 ? '...' : ''}"`,
         projectId: projectId,
         projectTitle: projectTitle,
         timestamp: new Date().toISOString()
@@ -105,7 +110,7 @@ io.on('connection', (socket) => {
 
   // Handle raise hand / collaboration request
   socket.on('raise-hand', (data) => {
-    const { projectOwnerId, projectTitle, requesterName, projectId } = data;
+    const { projectOwnerId, projectTitle, requesterName, requesterEmail, projectId } = data;
     
     const ownerSocketId = onlineUsers.get(projectOwnerId);
     
@@ -113,7 +118,7 @@ io.on('connection', (socket) => {
       io.to(ownerSocketId).emit('new-notification', {
         type: 'collaboration',
         title: 'Collaboration Request',
-        message: `${requesterName} is interested in collaborating on your project "${projectTitle}"`,
+        message: `${requesterName}<${requesterEmail}> is interested in collaborating on your project "${projectTitle}"`,
         projectId: projectId,
         projectTitle: projectTitle,
         requesterName: requesterName,

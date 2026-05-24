@@ -7,6 +7,7 @@ import Dashboard from './pages/dashboard';
 import NotFound from './components/notfound';
 import axios from 'axios';
 import './index.css';
+import { API_URL } from './api.js'
 
 axios.defaults.withCredentials = true; // Send cookies with requests
 
@@ -18,7 +19,7 @@ const App = () => {
     const fetchUserSession = async () => {
       try {
         // ========== FIXED: Use full URL or ensure proxy is configured ==========
-        const res = await axios.get('http://localhost:5000/api/auth/current', {
+        const res = await axios.get(`${API_URL}/api/auth/current`, {
           withCredentials: true
         });
         
