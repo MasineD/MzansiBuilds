@@ -20,11 +20,13 @@ const Dashboard = ({ user, setUser }) => {
 
   const [showSidebar, setShowSidebar] = useState(false)
 
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
   // ========== Verify session on mount and refresh user data ==========
   useEffect(() => {
     const verifySession = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/auth/current', {
+        const res = await axios.get(`${API_URL}/api/auth/current`, {
           withCredentials: true
         });
         if (!res.data.user) {
@@ -48,7 +50,7 @@ const Dashboard = ({ user, setUser }) => {
   // Function to handle logout
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:5000/api/auth/logout', {}, {
+      await axios.post(`${API_URL}/api/auth/logout`, {}, {
         withCredentials: true
       });
       setUser(null);
