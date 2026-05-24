@@ -6,8 +6,9 @@ import { MdFrontHand, MdMessage, MdNotifications, MdClose, MdPerson } from 'reac
 import CommentsModal from '../components/commentModal'
 import io from 'socket.io-client'
 
+ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 // Initialize socket connection
-const socket = io('http://localhost:5000', {
+const socket = io(`${API_URL}`, {
   withCredentials: true
 });
 
@@ -113,7 +114,7 @@ const Overview = () => {
   // Fetch projects that belong to the current user (owner + collaborator)
   const fetchMyProjects = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/myprojects');
+      const response = await axios.get(`${API_URL}/api/myprojects`);
       setMyProjects(response.data);
     } catch (error) {
       console.error('Error fetching my projects:', error);
@@ -123,7 +124,7 @@ const Overview = () => {
   // Fetch other projects from the backend (excluding user's own and collaborator projects)
   const fetchOtherProjects = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/otherprojects');
+      const response = await axios.get(`${API_URL}/api/otherprojects`);
       setOtherProjects(response.data);
     } catch (error) {
       console.error('Error fetching other projects:', error);
