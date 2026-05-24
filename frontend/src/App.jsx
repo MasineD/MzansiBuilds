@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router';
-import Home from './pages/home';
-import Login from './pages/login';
-import Register from './pages/register';
-import Dashboard from './pages/dashboard';
-import NotFound from './components/notfound';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import NotFound from './components/NotFound';
 import axios from 'axios';
 import './index.css';
 import { API_URL } from './api.js'
