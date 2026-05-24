@@ -6,6 +6,8 @@ import ProjectDetails from '../components/projectDetails';
 import { Link } from 'react-router-dom';
 
 const Projects = () => {
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  
   const [projects, setProjects] = useState([]);
   const [projectData, setProjectData] = useState({
     title: '',
@@ -22,7 +24,7 @@ const Projects = () => {
   // Fetch all projects from the backend API when the component mounts
   const fetchProjects = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/projects/projects');
+      const response = await axios.get(`${API_URL}/api/projects/projects`);
       setProjects(response.data);
       console.log('Fetched projects:', response.data);
     } catch (error) {
@@ -45,7 +47,7 @@ const Projects = () => {
         projectUrl: 'http://example.com',
         completed: false
       };
-      const response = await axios.post('http://localhost:5000/api/projects/projects', newProject);
+      const response = await axios.post(`${API_URL}/api/projects/projects', newProject`);
       setProjects([...projects, response.data]);
       fetchProjects();
       console.log('Project added:', response.data);
