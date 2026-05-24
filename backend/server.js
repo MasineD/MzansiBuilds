@@ -60,7 +60,7 @@ const io = new Server(server, {
 
 // ========== EXISTING MIDDLEWARE ==========
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: "https://mzans-ibuilds.onrender.com",
   credentials: true,
 }));
 app.use(express.json());
