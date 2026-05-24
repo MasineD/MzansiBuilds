@@ -18,17 +18,19 @@ const Login = ({ setUser }) => {
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        try{
-            // Use the environment variable instead of hardcoded localhost
-            const res = await axios.post(`${API_URL}/api/auth/login`, form);
-            setUser(res.data.user);
-            localStorage.setItem('user', JSON.stringify(res.data.user));
-            navigate('/dashboard');
-        }catch(err){
-            setError("Failed to login");
-        }
-    };
+    e.preventDefault();
+    try {
+        // ✅ Add withCredentials: true
+        const res = await axios.post(`${API_URL}/api/auth/login`, form, {
+            withCredentials: true
+        });
+        setUser(res.data.user);
+        localStorage.setItem('user', JSON.stringify(res.data.user));
+        navigate('/dashboard');
+    } catch (err) {
+        setError("Failed to login");
+    }
+};
 
     return (
        <div className='min-h-screen flex items-center justify-center bg-black relative overflow-hidden'>
