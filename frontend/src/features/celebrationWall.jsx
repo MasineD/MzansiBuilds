@@ -5,13 +5,13 @@ import { GiPartyPopper } from 'react-icons/gi'
 import { MdCelebration } from 'react-icons/md'
 
 const CelebrationWall = () => {
-
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const [completedProjects, setCompletedProjects] = useState([]);
 
   // Fetch other projects from the backend
   const fetchCompletedProjects = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/celebrationWall');
+      const response = await axios.get(`${API_URL}/api/celebrationWall`);
       setCompletedProjects(response.data);
       console.log('Successfuly fetched completed projects:', response.data);
     } catch (error) {
