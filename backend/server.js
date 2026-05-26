@@ -21,14 +21,14 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://mzans-ibuilds.onrender.com",
+    origin: "https://mzansi-builds-9wp3.onrender.com",
     credentials: true,
   },
 });
 
 // ========== EXISTING MIDDLEWARE ==========
 app.use(cors({
-  origin: "https://mzans-ibuilds.onrender.com",
+  origin: "https://mzansi-builds-9wp3.onrender.com",
   credentials: true,
 }));
 app.use(express.json());
