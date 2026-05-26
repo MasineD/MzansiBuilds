@@ -180,7 +180,7 @@ const Overview = () => {
         <h1 className='featureTitle text-4xl md:text-5xl font-bold text-white mb-2'>Overview</h1>
         <p className='featureSlogan text-green-200 text-lg'>Browse and interact with all projects in the database</p>
 
-        <div className="absolute top-0 right-0">
+        <div className="absolute top-0 right-0 pt-4">
           <button onClick={() => setShowNotifications(!showNotifications)} className="bg-white/10 backdrop-blur-sm p-2 rounded-full hover:bg-white/20 transition-colors relative cursor-pointer">
             <MdNotifications size={24} className="text-white" />
             {unreadCount > 0 && (
