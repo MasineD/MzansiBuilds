@@ -13,7 +13,7 @@ MzansiBuilds is an online platform that helps developers to build publicly and k
 To get a glimpse of how the platform works, you can checkout the attached short video below.
 Click the image below to watch the demo on YouTube:
 
-[![Project Demo](/src/images/display.png)](https://www.youtube.com/watch?v=gV0wJBIoFnk)
+[![Project Demo](/frontend/src/images/display.png)](https://www.youtube.com/watch?v=gV0wJBIoFnk)
 
 To accomplish the requirements of this project, the following technologies were used:
 
