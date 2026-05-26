@@ -23,29 +23,54 @@ const Dashboard = ({ user, setUser }) => {
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   // ========== Verify session on mount and refresh user data ==========
-  useEffect(() => {
-    const verifySession = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/api/auth/current`, {
-          withCredentials: true
-        });
-        if (!res.data.user) {
-          // If no user found, redirect to login
-          setUser(null);
-          navigate('/login');
-        } else {
-          // Update user state with fresh data
-          setUser(res.data.user);
-        }
-      } catch (error) {
-        console.error('Session verification failed:', error);
-        setUser(null);
-        navigate('/login');
-      }
-    };
+  // In Dashboard.jsx, update the verifySession function
+useEffect(() => {
+  const verifySession = async () => {
+    // Don't verify if we already have user data
+    if (user && user.id) {
+      return;
+    }
     
-    verifySession();
-  }, [navigate, setUser]);
+    try {
+      const res = await axios.get(`${API_URL}/api/auth/current`, {
+        withCredentials: true,
+        timeout: 10000
+      });
+      
+      if (!res.data.user) {
+        // No user found, redirect to login
+        setUser(null);
+        localStorage.removeItem('user');
+        navigate('/login');
+      } else {
+        // Update user state with fresh data
+        setUser(res.data.user);
+        localStorage.setItem('user', JSON.stringify(res.data.user));
+      }
+    } catch (error) {
+      console.error('Session verification failed:', error);
+      
+      // ✅ Don't redirect on network errors if we have cached user
+      const cachedUser = localStorage.getItem('user');
+      if (!cachedUser || error.response?.status === 401) {
+        setUser(null);
+        localStorage.removeItem('user');
+        navigate('/login');
+      } else {
+        // Keep the cached user data
+        try {
+          const parsedUser = JSON.parse(cachedUser);
+          setUser(parsedUser);
+          console.log('Using cached user data');
+        } catch (e) {
+          navigate('/login');
+        }
+      }
+    }
+  };
+  
+  verifySession();
+}, [navigate, setUser, user]); //  Added user to dependencies
 
   // Function to handle logout
   const handleLogout = async () => {
