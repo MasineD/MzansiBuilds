@@ -10,8 +10,7 @@ const cookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'none',
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-    domain: '.onrender.com'
+    maxAge: 30 * 24 * 60 * 60 * 1000
 };
 
 const generateToken = (id) => {
@@ -94,8 +93,7 @@ router.post('/logout', (req, res) => {
     res.clearCookie('token', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'none',
-        domain: '.onrender.com'
+        sameSite: 'none'
     });
     res.json({ message: 'Logged out successfully' });
 });
