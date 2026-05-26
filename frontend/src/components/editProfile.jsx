@@ -3,7 +3,7 @@ import axios from 'axios'
 import { FaPencilAlt, FaTimes } from 'react-icons/fa'
 
 const EditProfile = ({ closeProfile }) => {
-
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   // console.log("Checking the onCancel prop:", typeof closeProfile)
   const [isEditing, setIsEditing] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -20,7 +20,7 @@ const EditProfile = ({ closeProfile }) => {
   const fetchProfile = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('http://localhost:5000/api/profile', {
+      const response = await axios.get(`${API_URL}/api/profile`, {
         withCredentials: true
       })
       const profile = response.data
@@ -43,7 +43,7 @@ const EditProfile = ({ closeProfile }) => {
   const handleSaveProfile = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.put('http://localhost:5000/api/profile', formData, {
+      const response = await axios.put(`${API_URL}/api/profile`, formData, {
         withCredentials: true
       })
       console.log('Profile updated successfully:', response.data)
