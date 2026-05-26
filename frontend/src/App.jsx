@@ -9,7 +9,7 @@ import axios from 'axios';
 import './index.css';
 import { API_URL } from './api.js'
 
-axios.defaults.withCredentials = true; // Send cookies with requests
+axios.defaults.withCredentials = true;
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -17,24 +17,41 @@ const App = () => {
 
   useEffect(() => {
     const fetchUserSession = async () => {
+      // ✅ First, check localStorage for cached user data
+      const cachedUser = localStorage.getItem('user');
+      
       try {
-        // ========== FIXED: Use full URL or ensure proxy is configured ==========
         const res = await axios.get(`${API_URL}/api/auth/current`, {
-          withCredentials: true
+          withCredentials: true,
+          timeout: 10000 // 10 second timeout
         });
         
         if (res.data.user) {
           setUser(res.data.user);
-          // Store user in localStorage as backup (optional)
           localStorage.setItem('user', JSON.stringify(res.data.user));
         } else {
+          // Only clear if server explicitly says no user
           setUser(null);
           localStorage.removeItem('user');
         }
       } catch (err) {
         console.error('Session check failed:', err.response?.status, err.message);
-        setUser(null);
-        localStorage.removeItem('user');
+        
+        // ✅ IMPORTANT: Don't clear user on network errors
+        // Only clear if it's a 401 (unauthorized) or 404
+        if (err.response?.status === 401 || err.response?.status === 404) {
+          setUser(null);
+          localStorage.removeItem('user');
+        } else if (cachedUser) {
+          // ✅ Keep the cached user if it's a network error
+          try {
+            const parsedUser = JSON.parse(cachedUser);
+            setUser(parsedUser);
+            console.log('Using cached user data due to network error');
+          } catch (e) {
+            setUser(null);
+          }
+        }
       } finally {
         setLoading(false);
       }
@@ -57,7 +74,7 @@ const App = () => {
         <Route path="/" element={user ? <Dashboard user={user} setUser={setUser} /> : <Home />} />
         <Route path="/login" element={user ? <Dashboard user={user} setUser={setUser} /> : <Login setUser={setUser} />} />
         <Route path="/register" element={user ? <Dashboard user={user} setUser={setUser} /> : <Register setUser={setUser} />} />
-        {user && <Route path="/dashboard" element={<Dashboard user={user} setUser={setUser} />} />}
+        <Route path="/dashboard" element={user ? <Dashboard user={user} setUser={setUser} /> : <Login setUser={setUser} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
