@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -12,12 +12,21 @@ import { API_URL } from './api.js'
 axios.defaults.withCredentials = true;
 
 const App = () => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(() => {
+    const cached = localStorage.getItem('user');
+    if (cached) {
+      try {
+        return JSON.parse(cached);
+      } catch (e) {
+        return null;
+      }
+    }
+    return null;
+  });
+  const [loading, setLoading] = useState(!localStorage.getItem('user'));
 
   useEffect(() => {
     const fetchUserSession = async () => {
-      // ✅ First, check localStorage for cached user data
       const cachedUser = localStorage.getItem('user');
       
       try {
@@ -30,24 +39,20 @@ const App = () => {
           setUser(res.data.user);
           localStorage.setItem('user', JSON.stringify(res.data.user));
         } else {
-          // Only clear if server explicitly says no user
           setUser(null);
           localStorage.removeItem('user');
         }
       } catch (err) {
         console.error('Session check failed:', err.response?.status, err.message);
         
-        // ✅ IMPORTANT: Don't clear user on network errors
         // Only clear if it's a 401 (unauthorized) or 404
         if (err.response?.status === 401 || err.response?.status === 404) {
           setUser(null);
           localStorage.removeItem('user');
         } else if (cachedUser) {
-          // ✅ Keep the cached user if it's a network error
           try {
             const parsedUser = JSON.parse(cachedUser);
             setUser(parsedUser);
-            console.log('Using cached user data due to network error');
           } catch (e) {
             setUser(null);
           }
