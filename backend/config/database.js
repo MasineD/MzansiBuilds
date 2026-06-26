@@ -13,11 +13,7 @@ const pool = new Pool({
     // database: process.env.DB_NAME    //Database name
 });
 
-pool.on("connect", (err) => {      //Event listener for the 'connect' event, which is emitted when a connection to the database is established. It takes a callback function that receives an error object if the connection fails.
-    if (err) {
-        console.error("Error connecting to the database:", err);
-    } else {        // If the connection is successful, log a success message
-        console.log("Connected to the database successfully!");
-    }
+pool.on("connect", () => {      //Event listener for the 'connect' event, which is emitted when a connection to the database is established.
+    console.log("Connected to the database successfully!");
 });
 export default pool;
