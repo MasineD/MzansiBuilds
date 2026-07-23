@@ -32,7 +32,7 @@ const App = () => {
       try {
         const res = await axios.get(`${API_URL}/api/auth/current`, {
           withCredentials: true,
-          timeout: 10000 // 10 second timeout
+          timeout: 500000 // 5 minutes timeout
         });
         
         if (res.data.user) {
